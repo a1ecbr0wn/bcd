@@ -142,7 +142,6 @@ fn main() {
         match bookmarks_cache.get(options.target.as_str()) {
             Some(path) => {
                 println!("cd {}", path);
-                let _ret = Command::new("cd").arg(path).output().expect("failed");
             }
             _ => {
                 println!("Bookmark not found, use `--list` to see the list of bookmarks");
