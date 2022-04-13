@@ -6,7 +6,7 @@ use std::env;
 use std::io::stdout;
 use std::path::Path;
 use std::process::exit;
-use std::{collections::HashMap, env::current_dir};
+use std::{collections::BTreeMap, env::current_dir};
 use tabled::{builder::Builder, Alignment, Full, Modify, Style};
 
 mod init;
@@ -91,7 +91,7 @@ fn main() {
         init::setup_shell();
     }
 
-    let mut bookmarks_cache: HashMap<String, String> = HashMap::new();
+    let mut bookmarks_cache: BTreeMap<String, String> = BTreeMap::new();
     let mut bookmarks_file = home_dir().unwrap();
     bookmarks_file.push(".bcd");
     if bookmarks_file.exists() {
@@ -150,7 +150,7 @@ fn main() {
     }
 }
 
-fn persist(bookmarks: &HashMap<String, String>, path: &Path) -> Result<()> {
+fn persist(bookmarks: &BTreeMap<String, String>, path: &Path) -> Result<()> {
     let mut wtr = Writer::from_path(path)?;
     wtr.write_record(&["bookmark", "path"])?;
     for bookmark in bookmarks.iter() {
