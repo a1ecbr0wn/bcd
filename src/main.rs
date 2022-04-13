@@ -5,7 +5,7 @@ use lazy_static::lazy_static;
 use std::env;
 use std::io::stdout;
 use std::path::Path;
-use std::process::{exit, Command};
+use std::process::exit;
 use std::{collections::HashMap, env::current_dir};
 use tabled::{builder::Builder, Alignment, Full, Modify, Style};
 
