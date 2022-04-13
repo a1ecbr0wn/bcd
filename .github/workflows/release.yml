@@ -58,4 +58,4 @@ jobs:
           prerelease: false
           files: |
             LICENSE
-            target/release/bcd
+            target/release/bookmark-cd
