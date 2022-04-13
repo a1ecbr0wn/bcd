@@ -1,0 +1,49 @@
+---
+name: CI Build
+
+on:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**/*.md'
+      - 'LICENSE'
+  pull_request:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**/*.md'
+      - 'LICENSE'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
+
+env:
+  RUSTFLAGS: '--deny warnings'
+
+jobs:
+  build:
+    name: "CI Build"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust: [stable]
+        TARGET:
+          - x86_64-unknown-linux-gnu
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+      
+      - name: "Toolchain setup"
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          target: ${{ matrix.TARGET }}
+          override: true
+
+      - name: "Build"
+        uses: actions-rs/cargo@v1
+        with:
+          command: build

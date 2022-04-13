@@ -1,0 +1,27 @@
+[package]
+name = "bcd"
+version = "0.1.0"
+edition = "2021"
+authors = ["Alec Brown <alec@noser.net>"]
+description = "Command Line app to change between bookmarked directories"
+license = "Apache-2.0"
+repository = "https://github.com/a1ecbr0wn/bcd"
+homepage = "https://github.com/a1ecbr0wn/bcd"
+readme = "README.md"
+keywords = ["filesystem", "utility"]
+categories = ["command-line-utilities"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+path = "src/main.rs"
+name = "bookmark-cd"
+
+[dependencies]
+lazy_static = "1.4.0"
+argparse = "0.2.2"
+csv = "1.1.6"
+home = "0.5.3"
+tabled = "0.6.0"
+sysinfo = "0.23.9"
+pshell = "1.0.1"
