@@ -1,6 +1,6 @@
 [package]
 name = "bookmark-cd"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 authors = ["Alec Brown <alec@noser.net>"]
 description = "Command Line app to change between bookmarked directories"
@@ -22,6 +22,6 @@ lazy_static = "1.4.0"
 argparse = "0.2.2"
 csv = "1.1.6"
 home = "0.5.3"
-tabled = "0.6.0"
+tabled = "0.7.0"
 sysinfo = "0.23.9"
 pshell = "1.0.1"
