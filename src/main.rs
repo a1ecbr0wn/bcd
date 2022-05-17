@@ -7,7 +7,7 @@ use std::io::stdout;
 use std::path::Path;
 use std::process::exit;
 use std::{collections::BTreeMap, env::current_dir};
-use tabled::{builder::Builder, Alignment, Modify, Style, object::Segment };
+use tabled::{builder::Builder, object::Segment, Alignment, Modify, Style};
 
 mod init;
 
