@@ -7,7 +7,7 @@ use std::io::stdout;
 use std::path::Path;
 use std::process::exit;
 use std::{collections::BTreeMap, env::current_dir};
-use tabled::{builder::Builder, Alignment, Full, Modify, Style};
+use tabled::{builder::Builder, Alignment, Modify, Style, object::Segment };
 
 mod init;
 
@@ -121,16 +121,16 @@ fn main() {
 
     if options.list {
         if !bookmarks_cache.is_empty() {
-            let mut table = Builder::default().set_header(["bookmark", "path"]);
+            let mut table = Builder::default().set_columns(["bookmark", "path"]);
             for bookmark in bookmarks_cache.clone() {
-                table = table.add_row([bookmark.0, bookmark.1]);
+                table = table.add_record([bookmark.0, bookmark.1]);
             }
             println!(
                 "{}",
                 table
                     .build()
                     .with(Style::psql())
-                    .with(Modify::new(Full).with(Alignment::left()))
+                    .with(Modify::new(Segment::all()).with(Alignment::left()))
             );
         } else {
             println!("Use the following arguments to store your first bookmark:");
