@@ -3,7 +3,7 @@ name = "bookmark-cd"
 version = "0.1.7"
 edition = "2021"
 authors = ["Alec Brown <alec@noser.net>"]
-description = "Command Line app to change between bookmarked directories"
+description = "Bookmark directories and move to them"
 license = "Apache-2.0"
 repository = "https://github.com/a1ecbr0wn/bcd"
 homepage = "https://github.com/a1ecbr0wn/bcd"
@@ -20,8 +20,14 @@ name = "bookmark-cd"
 [dependencies]
 lazy_static = "1.4.0"
 argparse = "0.2.2"
+clap = { version = "3.1", features = ["derive"] }
 csv = "1.1.6"
 home = "0.5.3"
 tabled = "0.8.0"
 sysinfo = "0.25.1"
 pshell = "1.0.4"
+
+[build-dependencies]
+clap = { version = "3.1", features = ["derive"] }
+clap_complete = "3.1"
+clap_complete_fig = "3.1"
