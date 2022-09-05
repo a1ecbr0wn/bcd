@@ -20,7 +20,7 @@ name = "bookmark-cd"
 [dependencies]
 lazy_static = "1.4.0"
 argparse = "0.2.2"
-clap = { version = "3.1", features = ["derive"] }
+clap = { version = "3.2", features = ["derive"] }
 csv = "1.1.6"
 home = "0.5.3"
 tabled = "0.8.0"
@@ -28,6 +28,6 @@ sysinfo = "0.26.2"
 pshell = "1.0.4"
 
 [build-dependencies]
-clap = { version = "3.1", features = ["derive"] }
-clap_complete = "3.1"
-clap_complete_fig = "3.1"
+clap = { version = "3.2", features = ["derive"] }
+clap_complete = "3.2"
+clap_complete_fig = "3.2"
