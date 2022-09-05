@@ -64,10 +64,7 @@ fn main() {
             let path = current_dir().unwrap();
             let to_store = options.store.unwrap();
             if !bookmarks_cache.contains_key(&to_store) {
-                bookmarks_cache.insert(
-                    to_store,
-                    path.into_os_string().into_string().unwrap(),
-                );
+                bookmarks_cache.insert(to_store, path.into_os_string().into_string().unwrap());
                 if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
                     println!("Bookmark saved");
                 }
@@ -79,9 +76,7 @@ fn main() {
 
         if !options.remove.is_none() {
             let to_remove = options.remove.unwrap();
-            let removed = bookmarks_cache.remove(
-                &to_remove
-            );
+            let removed = bookmarks_cache.remove(&to_remove);
             if removed.is_some() && persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
                 println!("Bookmark removed");
             } else {
