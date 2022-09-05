@@ -62,10 +62,10 @@ fn main() {
 
         if options.store.is_some() {
             let path = current_dir().unwrap();
-            let to_store = options.store.unwrap();
-
-            let _rtn =
-                bookmarks_cache.insert(to_store, path.into_os_string().into_string().unwrap());
+            let _rtn = bookmarks_cache.insert(
+                options.store.unwrap(),
+                path.into_os_string().into_string().unwrap(),
+            );
             if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
                 println!("Bookmark saved");
             }
