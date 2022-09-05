@@ -8,7 +8,7 @@ fn main() {
     #[path = "src/cli.rs"]
     mod cli;
 
-    let out_dir = &PathBuf::from("target/fig");
+    let out_dir = &PathBuf::from("target/.fig");
     let _ = fs::create_dir_all(out_dir);
 
     clap_complete::generate_to(

@@ -60,28 +60,21 @@ fn main() {
             exit(0);
         }
 
-        if !options.store.is_none() {
+        if options.store.is_some() {
             let path = current_dir().unwrap();
             let to_store = options.store.unwrap();
-            if !bookmarks_cache.contains_key(&to_store) {
-                bookmarks_cache.insert(
-                    to_store,
-                    path.into_os_string().into_string().unwrap(),
-                );
-                if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
-                    println!("Bookmark saved");
-                }
-            } else {
-                println!("Bookmark {} already exists", to_store);
+
+            let _rtn =
+                bookmarks_cache.insert(to_store, path.into_os_string().into_string().unwrap());
+            if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                println!("Bookmark saved");
             }
             exit(0);
         }
 
-        if !options.remove.is_none() {
+        if options.remove.is_some() {
             let to_remove = options.remove.unwrap();
-            let removed = bookmarks_cache.remove(
-                &to_remove
-            );
+            let removed = bookmarks_cache.remove(&to_remove);
             if removed.is_some() && persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
                 println!("Bookmark removed");
             } else {
