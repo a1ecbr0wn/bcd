@@ -32,10 +32,12 @@ fn main() {
 
         if options.show_version {
             println!("{}", DESCRIPTION.as_str());
+            exit(0);
         }
 
         if options.install {
             init::setup_shell();
+            exit(0);
         }
 
         let mut bookmarks_cache: BTreeMap<String, String> = BTreeMap::new();
@@ -67,6 +69,7 @@ fn main() {
             if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
                 println!("Bookmark saved");
             }
+            exit(0);
         }
 
         if options.list {
@@ -87,6 +90,7 @@ fn main() {
                 println!("Use the following arguments to store your first bookmark:");
                 println!("  -s,--store STORE      Store the current directory as a bookmark STORE");
             }
+            exit(0);
         }
 
         if options.bookmark.is_some() {
@@ -98,7 +102,10 @@ fn main() {
                     println!("Bookmark not found, use `--list` to see the list of bookmarks");
                 }
             }
+            exit(0);
         }
+
+        println!("{}", DESCRIPTION.as_str());
     }
 }
 

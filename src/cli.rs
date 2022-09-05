@@ -4,7 +4,7 @@ use clap::Parser;
 #[derive(Parser)]
 #[clap(name = "bcd")]
 #[clap(bin_name = "bcd")]
-#[clap(author, version, about, long_about = None)]
+#[clap(author, version, about, long_about = None, arg_required_else_help(true))]
 pub struct Options {
     /// Print version information
     #[clap(short = 'V', long = "version", value_parser)]
