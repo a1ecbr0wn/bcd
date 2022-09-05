@@ -62,12 +62,30 @@ fn main() {
 
         if !options.store.is_none() {
             let path = current_dir().unwrap();
-            bookmarks_cache.insert(
-                options.store.unwrap(),
-                path.into_os_string().into_string().unwrap(),
+            let to_store = options.store.unwrap();
+            if !bookmarks_cache.contains_key(&to_store) {
+                bookmarks_cache.insert(
+                    to_store,
+                    path.into_os_string().into_string().unwrap(),
+                );
+                if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                    println!("Bookmark saved");
+                }
+            } else {
+                println!("Bookmark {} already exists", to_store);
+            }
+            exit(0);
+        }
+
+        if !options.remove.is_none() {
+            let to_remove = options.remove.unwrap();
+            let removed = bookmarks_cache.remove(
+                &to_remove
             );
-            if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
-                println!("Bookmark saved");
+            if removed.is_some() && persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                println!("Bookmark removed");
+            } else {
+                println!("{} is not a valid bookmark", &to_remove);
             }
             exit(0);
         }

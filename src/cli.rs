@@ -22,6 +22,10 @@ pub struct Options {
     #[clap(short, long, value_parser)]
     pub store: Option<String>,
 
+    /// Remove a specified bookmark REMOVE
+    #[clap(short, long, value_parser)]
+    pub remove: Option<String>,
+    
     /// Bookmarked directory to change to
     #[clap(value_parser)]
     pub bookmark: Option<String>,
