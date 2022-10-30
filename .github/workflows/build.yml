@@ -1,5 +1,5 @@
 ---
-name: CI Build Linux
+name: CI Build
 
 on:
   push:
@@ -32,12 +32,17 @@ jobs:
           - x86_64-unknown-linux-gnu
           - armv7-unknown-linux-gnueabihf
           - aarch64-unknown-linux-gnu
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
+        include:
+          - TARGET: [x86_64-apple-darwin, aarch64-apple-darwin]
+            MACOS: true
 
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
       
-      - name: "Toolchain setup"
+      - name: "Rust Toolchain setup"
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -45,9 +50,14 @@ jobs:
           target: ${{ matrix.TARGET }}
           override: true
 
+      - name: "MacOS toolchain"
+        uses: mbround18/setup-osxcross@v1
+        with:
+          osx-version: "12.3"
+        if: ${{ matrix.MACOS }}
+
       - name: "Build"
         uses: actions-rs/cargo@v1
         with:
-          use-cross: true
           command: build
           args: --target=${{ matrix.TARGET }}
