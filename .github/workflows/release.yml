@@ -13,11 +13,12 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        rust: [stable]
-        TARGET:
+        RUST: [stable]
+        TARGET_LINUX:
           - x86_64-unknown-linux-gnu
           - armv7-unknown-linux-gnueabihf
           - aarch64-unknown-linux-gnu
+        TARGET_MACOS:
           - x86_64-apple-darwin
           - aarch64-apple-darwin
 
@@ -25,27 +26,27 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      - name: "Toolchain setup"
+      - name: "Linux Toolchain setup"
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: ${{ matrix.rust }}
-          target: ${{ matrix.TARGET }}
+          toolchain: ${{ matrix.RUST }}
+          target: ${{ matrix.TARGET_LINUX }}
           override: true
 
-      - name: "Test"
+      - name: "Linux Test"
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: test
-          args: --target=${{ matrix.TARGET }}
+          args: --target=${{ matrix.TARGET_LINUX }}
 
-      - name: "Build release"
+      - name: "Linux Build release"
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: build
-          args: --release --target=${{ matrix.TARGET }}
+          args: --release --target=${{ matrix.TARGET_LINUX }}
 
       - name: "Publish Application to crates.io"
         env:
