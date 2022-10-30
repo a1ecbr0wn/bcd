@@ -1,5 +1,5 @@
 ---
-name: CI Build Linux
+name: CI Build MacOS
 
 on:
   push:
@@ -29,9 +29,8 @@ jobs:
       matrix:
         RUST: [stable]
         TARGET:
-          - x86_64-unknown-linux-gnu
-          - armv7-unknown-linux-gnueabihf
-          - aarch64-unknown-linux-gnu
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
 
     steps:
       - name: "Checkout"
@@ -44,6 +43,11 @@ jobs:
           toolchain: ${{ matrix.RUST }}
           target: ${{ matrix.TARGET }}
           override: true
+
+      - uses: mbround18/setup-osxcross@v1
+        # This builds executables & sets env variables for rust to consume.
+        with:
+          osx-version: "12.3"
 
       - name: "Build"
         uses: actions-rs/cargo@v1
