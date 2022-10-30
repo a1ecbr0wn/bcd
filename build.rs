@@ -1,4 +1,4 @@
-use clap::IntoApp;
+use clap::CommandFactory;
 use std::{fs, path::PathBuf};
 
 fn main() {
