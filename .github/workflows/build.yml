@@ -35,7 +35,8 @@ jobs:
           - x86_64-apple-darwin
           - aarch64-apple-darwin
         include:
-          - TARGET: [x86_64-apple-darwin, aarch64-apple-darwin]
+          - RUST: [stable]
+            TARGET: [x86_64-apple-darwin, aarch64-apple-darwin]
             MACOS: true
 
     steps:
