@@ -23,6 +23,7 @@ env:
 
 jobs:
   format:
+    name: "Rust Format Check"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
