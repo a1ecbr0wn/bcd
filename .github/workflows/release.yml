@@ -126,6 +126,9 @@ jobs:
     needs: [tag-release-build-linux, tag-release-build-macos]
 
     steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+
       - name: "Publish Application to crates.io"
         env:
           CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_TOKEN }}"
