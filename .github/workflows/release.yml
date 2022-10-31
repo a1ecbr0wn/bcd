@@ -139,6 +139,8 @@ jobs:
       - name: "Download all release artifacts from the workflow"
         uses: actions/download-artifact@v3
 
+      - run: unzip *.zip
+  
       - run: pwd
 
       - run: ls -al
