@@ -70,9 +70,7 @@ jobs:
       - name: "Test"
         uses: actions-rs/cargo@v1
         with:
-          use-cross: true
           command: test
-          args: --target=${{ matrix.TARGET }}
 
       - name: "Build release"
         uses: actions-rs/cargo@v1
