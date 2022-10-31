@@ -65,6 +65,13 @@ jobs:
           command: build
           args: --release --target=${{ matrix.TARGET }}
 
+      - name: "Upload the artifact with the workflow run"
+        uses: actions/upload-artifact@v3
+        with:
+          name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
+          path: bcd-${{ matrix.TARGET }}.tar.gz
+          retention-days: 1
+
   tag-release-build-macos:
     name: "Tag Release Build - MacOS"
     runs-on: "macos-latest"
@@ -132,6 +139,10 @@ jobs:
       - name: "Download all release artifacts from the workflow"
         uses: actions/download-artifact@v3
 
+      - run: pwd
+
+      - run: ls -al
+
       - name: "Create CLI Release"
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -141,8 +152,4 @@ jobs:
           prerelease: false
           files: |
             LICENSE
-            bcd-x86_64-unknown-linux-gnu.tar.gz
-            bcd-armv7-unknown-linux-gnueabihf.tar.gz
-            bcd-aarch64-unknown-linux-gnu.tar.gz
-            bcd-x86_64-apple-darwin.tar.gz
-            bcd-aarch64-apple-darwin.tar.gz
+            bcd-*.tar.gz
