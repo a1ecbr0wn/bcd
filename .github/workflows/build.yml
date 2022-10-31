@@ -22,8 +22,8 @@ env:
   RUSTFLAGS: '--deny warnings'
 
 jobs:
-  build:
-    name: "CI Build"
+  build-linux:
+    name: "CI Build - Linux"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,39 +32,61 @@ jobs:
           - x86_64-unknown-linux-gnu
           - armv7-unknown-linux-gnueabihf
           - aarch64-unknown-linux-gnu
-        include:
-          - RUST: stable
-            TARGET: x86_64-apple-darwin
-            MACOS: true
-          # - RUST: stable
-          #   TARGET: aarch64-apple-darwin
-          #   MACOS: true
+
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
       
-      # - name: "Rust Toolchain setup"
-      #   uses: actions-rs/toolchain@v1
-      #   with:
-      #     profile: minimal
-      #     toolchain: ${{ matrix.RUST }}
-      #     target: ${{ matrix.TARGET }}
-      #     override: true
-
       - name: "Rust Toolchain setup"
-        uses: ATiltedTree/setup-rust@v1
+        uses: actions-rs/toolchain@v1
         with:
-          rust-version: ${{ matrix.RUST }}
-          targets: ${{ matrix.TARGET }}
-
-      - name: "MacOS toolchain"
-        uses: mbround18/setup-osxcross@v1
-        with:
-          osx-version: "12.3"
-        if: ${{ matrix.MACOS }}
+          profile: minimal
+          toolchain: ${{ matrix.RUST }}
+          target: ${{ matrix.TARGET }}
+          override: true
 
       - name: "Build"
         uses: actions-rs/cargo@v1
         with:
+          use-cross: true
+          command: build
+          args: --target=${{ matrix.TARGET }}
+
+  build-macos:
+    name: "CI Build - Macos"
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        RUST: [stable]
+        TARGET:
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+      
+      - name: "Rust Toolchain setup"
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.RUST }}
+          target: ${{ matrix.TARGET }}
+          override: true
+
+      # - name: "Rust Toolchain setup"
+      #   uses: ATiltedTree/setup-rust@v1
+      #   with:
+      #     rust-version: ${{ matrix.RUST }}
+      #     targets: ${{ matrix.TARGET }}
+
+      # - name: "MacOS toolchain"
+      #   uses: mbround18/setup-osxcross@v1.1
+      #   with:
+      #     osx-version: "12.3"
+
+      - name: "Build"
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
           command: build
           args: --target=${{ matrix.TARGET }}
