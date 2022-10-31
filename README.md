@@ -7,12 +7,6 @@
 
 `bcd` is a way to `cd` to directories that have been bookmarked.
 
-<div align="center">
-
-[Installation](#installation) - [Contribute](#contribute)
-
-</div>
-
 ## Installation
 
 ### 1: Install bookmark-cd
