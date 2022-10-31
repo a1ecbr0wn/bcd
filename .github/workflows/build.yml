@@ -43,13 +43,19 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
       
+      # - name: "Rust Toolchain setup"
+      #   uses: actions-rs/toolchain@v1
+      #   with:
+      #     profile: minimal
+      #     toolchain: ${{ matrix.RUST }}
+      #     target: ${{ matrix.TARGET }}
+      #     override: true
+
       - name: "Rust Toolchain setup"
-        uses: actions-rs/toolchain@v1
+        uses: ATiltedTree/setup-rust@v1
         with:
-          profile: minimal
-          toolchain: ${{ matrix.RUST }}
-          target: ${{ matrix.TARGET }}
-          override: true
+          rust-version: ${{ matrix.RUST }}
+          targets: ${{ matrix.TARGET }}
 
       - name: "MacOS toolchain"
         uses: mbround18/setup-osxcross@v1
