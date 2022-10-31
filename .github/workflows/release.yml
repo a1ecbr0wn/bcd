@@ -65,6 +65,9 @@ jobs:
           command: build
           args: --release --target=${{ matrix.TARGET }}
 
+      - name: "Package Release"
+        run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --cd=target/${{ matrix.TARGET }}/release bookmark-cd
+
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
         with:
@@ -106,7 +109,7 @@ jobs:
           use-cross: true
           command: build
           args: --release --target=${{ matrix.TARGET }}
-      
+
       - name: "Package Release"
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --cd=target/${{ matrix.TARGET }}/release bookmark-cd
 
