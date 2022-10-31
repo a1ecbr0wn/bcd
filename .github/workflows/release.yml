@@ -8,17 +8,50 @@ on:
   workflow_dispatch:
 
 jobs:
-  tag-release:
-    name: "Tag Release Build"
+  tag-release-build-linux:
+    name: "Tag Release Build - Linux"
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
         RUST: [stable]
-        TARGET_LINUX:
+        TARGET:
           - x86_64-unknown-linux-gnu
           - armv7-unknown-linux-gnueabihf
           - aarch64-unknown-linux-gnu
-        TARGET_MACOS:
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+
+      - name: "Toolchain setup"
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.RUST }}
+          target: ${{ matrix.TARGET }}
+          override: true
+
+      - name: "Test"
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: test
+          args: --target=${{ matrix.TARGET }}
+
+      - name: "Build release"
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target=${{ matrix.TARGET }}
+
+  tag-release-build-macos:
+    name: "Tag Release Build - MacOS"
+    runs-on: "macos-latest"
+    strategy:
+      matrix:
+        RUST: [stable]
+        TARGET:
           - x86_64-apple-darwin
           - aarch64-apple-darwin
 
@@ -26,34 +59,42 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      - name: "Linux Toolchain setup"
+      - name: "Toolchain setup"
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: ${{ matrix.RUST }}
-          target: ${{ matrix.TARGET_LINUX }}
+          target: ${{ matrix.TARGET }}
           override: true
 
-      - name: "Linux Test"
+      - name: "Test"
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: test
-          args: --target=${{ matrix.TARGET_LINUX }}
+          args: --target=${{ matrix.TARGET }}
 
-      - name: "Linux Build release"
+      - name: "Build release"
         uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: build
-          args: --release --target=${{ matrix.TARGET_LINUX }}
+          args: --release --target=${{ matrix.TARGET }}
+      
+      - name: "Package Release"
+        run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --cd=target/${{ matrix.TARGET }}/release bookmark-cd
 
-      - name: "Publish Application to crates.io"
-        env:
-          CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_TOKEN }}"
-        uses: actions-rs/cargo@v1
-        with:
-          command: publish
+  tag-release-publish:
+    name: "Tag Release Publish"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      # - name: "Publish Application to crates.io"
+      #   env:
+      #     CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_TOKEN }}"
+      #   uses: actions-rs/cargo@v1
+      #   with:
+      #     command: publish
 
       - name: "Create CLI Release"
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -64,4 +105,8 @@ jobs:
           prerelease: false
           files: |
             LICENSE
-            target/release/bookmark-cd
+            bcd-x86_64-unknown-linux-gnu.tar.gz
+            bcd-armv7-unknown-linux-gnueabihf.tar.gz
+            bcd-aarch64-unknown-linux-gnu.tar.gz
+            bcd-x86_64-apple-darwin.tar.gz
+            bcd-aarch64-apple-darwin.tar.gz

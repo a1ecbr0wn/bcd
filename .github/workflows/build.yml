@@ -73,17 +73,6 @@ jobs:
           target: ${{ matrix.TARGET }}
           override: true
 
-      # - name: "Rust Toolchain setup"
-      #   uses: ATiltedTree/setup-rust@v1
-      #   with:
-      #     rust-version: ${{ matrix.RUST }}
-      #     targets: ${{ matrix.TARGET }}
-
-      # - name: "MacOS toolchain"
-      #   uses: mbround18/setup-osxcross@v1.1
-      #   with:
-      #     osx-version: "12.3"
-
       - name: "Build"
         uses: actions-rs/cargo@v1
         with:
