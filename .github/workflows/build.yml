@@ -52,6 +52,13 @@ jobs:
           command: build
           args: --target=${{ matrix.TARGET }}
 
+      - name: "Test"
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: test
+          args: --target=${{ matrix.TARGET }}
+
   build-macos:
     name: "CI Build - Macos"
     runs-on: macos-latest
@@ -79,3 +86,8 @@ jobs:
           use-cross: true
           command: build
           args: --target=${{ matrix.TARGET }}
+
+      - name: "Test"
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
