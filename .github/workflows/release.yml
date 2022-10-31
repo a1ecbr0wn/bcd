@@ -66,7 +66,7 @@ jobs:
           args: --release --target=${{ matrix.TARGET }}
 
       - name: "Package Release"
-        run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --cd=target/${{ matrix.TARGET }}/release bookmark-cd
+        run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
@@ -111,7 +111,7 @@ jobs:
           args: --release --target=${{ matrix.TARGET }}
 
       - name: "Package Release"
-        run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --cd=target/${{ matrix.TARGET }}/release bookmark-cd
+        run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
