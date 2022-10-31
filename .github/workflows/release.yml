@@ -136,14 +136,11 @@ jobs:
     needs: [tag-release-build-linux, tag-release-build-macos]
 
     steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+        
       - name: "Download all release artifacts from the workflow"
         uses: actions/download-artifact@v3
-
-      - run: unzip *.zip
-  
-      - run: pwd
-
-      - run: ls -al
 
       - name: "Create CLI Release"
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -154,4 +151,4 @@ jobs:
           prerelease: false
           files: |
             LICENSE
-            bcd-*.tar.gz
+            **/bcd-*.tar.gz
