@@ -20,7 +20,7 @@ cargo install bookmark-cd
 ### 2: Setup your environment
 
 At the moment, only the `bash` shell is supported, feel free to [contribute](#contribute) if you are reading this
-and youmuse a different shell.
+and you use a different shell.
 
 Run the following command to set up your bash environment.
 
