@@ -4,6 +4,9 @@ use std::fs::File;
 mod bash;
 use bash::{check_bash, setup_bash};
 
+mod zsh;
+use zsh::{check_zsh, setup_zsh};
+
 const SH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
 pub(crate) fn setup_shell(interactive: bool) {
@@ -11,6 +14,7 @@ pub(crate) fn setup_shell(interactive: bool) {
     let (sh, _pid) = pshell::find().unwrap_or(("unknown".to_string(), 0));
     let shell_setup = match sh.as_str() {
         "bash" => check_bash(),
+        "zsh" => check_zsh(),
         _ => {
             println!("your shell [{}] is not currently supported, the following needs to be set in your shell init script:", sh.as_str());
             println!("{}", SH_INIT);
@@ -26,6 +30,9 @@ pub(crate) fn setup_shell(interactive: bool) {
             if reply.to_ascii_lowercase() == "y" || reply.to_ascii_lowercase() == "yes" {
                 if sh.as_str() == "bash" {
                     setup_bash();
+                    println!("bookmark-cd (bcd) has now been set up in your shell as long as it is in your path, please restart your shell and use `bcd`");
+                } else if sh.as_str() == "zsh" {
+                    setup_zsh();
                     println!("bookmark-cd (bcd) has now been set up in your shell as long as it is in your path, please restart your shell and use `bcd`");
                 } else {
                     println!("your shell [{}] is not currently supported", sh.as_str());

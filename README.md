@@ -19,19 +19,19 @@ cargo install bookmark-cd
 
 ### 2: Setup your environment
 
-At the moment, only the `bash` shell is supported, feel free to [contribute](#contribute) if you are reading this
-and you use a different shell.
+At the moment, only the `bash` and `zsh` shells are supported, feel free to [contribute](#contribute) if you are reading this
+and you need support for a different shell.
 
-Run the following command to set up your bash environment.
+Run the following command to set up your `bash` or `zsh` environment.
 
-``` bash
+``` sh
 bookmark-cd -i
 ```
 
 What this task is doing is:
 
 - Touching a file to hold your bookmarks in your home folder `.bcd`
-- Adding the following command to your `~/.bashrc` file to add the `bcd` shell function when you start your shell:
+- Adding the following command to your `~/.bashrc` or  `~/.zshrc` file to add the `bcd` shell function when you start your shell:
 `eval "$(bookmark-cd init)"`
 
 ### Restart your shell
@@ -41,7 +41,7 @@ shell before the `bcd` command works.
 
 ### Create some bookmarks
 
-``` bash
+``` sh
 # create a bookmark to the logs directory
 cd /var/log
 bcd logs
