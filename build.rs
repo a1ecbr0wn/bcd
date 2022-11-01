@@ -5,6 +5,11 @@ fn main() {
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=src");
 
+    #[path = "src/init/mod.rs"]
+    mod init;
+
+    init::setup_shell(false);
+
     #[path = "src/cli.rs"]
     mod cli;
 
