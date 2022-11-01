@@ -12,13 +12,7 @@ pub(crate) fn check_zsh() -> bool {
         if let Ok(mut file) = file_res {
             let mut contents = String::new();
             match file.read_to_string(&mut contents) {
-                Ok(_) => {
-                    let rtn = contents.contains(ZSH_INIT);
-                    if rtn {
-                        println!("zsh set up for bcd");
-                    }
-                    rtn
-                }
+                Ok(_) => contents.contains(ZSH_INIT),
                 Err(_) => {
                     println!("Cannot read `.zshrc` to install bookmark-cd (bcd) to run in your shell [zsh]");
                     false

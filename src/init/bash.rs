@@ -12,13 +12,7 @@ pub(crate) fn check_bash() -> bool {
         if let Ok(mut file) = file_res {
             let mut contents = String::new();
             match file.read_to_string(&mut contents) {
-                Ok(_) => {
-                    let rtn = contents.contains(BASH_INIT);
-                    if rtn {
-                        println!("bash set up for bcd");
-                    }
-                    rtn
-                }
+                Ok(_) => contents.contains(BASH_INIT),
                 Err(_) => {
                     println!("Cannot read `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]");
                     false
