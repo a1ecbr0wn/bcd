@@ -1,8 +1,10 @@
 use home::home_dir;
-use std::fs::{File, OpenOptions};
-use std::io::prelude::*;
+use std::fs::File;
 
-const BASH_INIT: &str = "eval \"$(bookmark-cd init)\"";
+mod bash;
+use bash::{check_bash, setup_bash};
+
+const SH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
 pub(crate) fn setup_shell(interactive: bool) {
     touch_file();
@@ -11,7 +13,7 @@ pub(crate) fn setup_shell(interactive: bool) {
         "bash" => check_bash(),
         _ => {
             println!("your shell [{}] is not currently supported, the following needs to be set in your shell init script:", sh.as_str());
-            println!("{}", BASH_INIT);
+            println!("{}", SH_INIT);
             true
         }
     };
@@ -39,54 +41,6 @@ pub(crate) fn setup_shell(interactive: bool) {
     }
 }
 
-fn check_bash() -> bool {
-    let mut bashrc_file = home_dir().unwrap();
-    bashrc_file.push(".bashrc");
-    if bashrc_file.exists() {
-        let file_res = File::open(bashrc_file);
-        if let Ok(mut file) = file_res {
-            let mut contents = String::new();
-            match file.read_to_string(&mut contents) {
-                Ok(_) => {
-                    let rtn = contents.contains(BASH_INIT);
-                    if rtn == true {
-                        println!("bash set up for bcd");
-                    }
-                    rtn
-                }
-                Err(_) => {
-                    println!("Cannot read `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]");
-                    false
-                }
-            }
-        } else {
-            println!(
-                "Cannot open `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]"
-            );
-            false
-        }
-    } else {
-        println!("Cannot find `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]");
-        false
-    }
-}
-
-fn setup_bash() {
-    let mut bashrc_file = home_dir().unwrap();
-    bashrc_file.push(".bashrc");
-
-    let mut file = OpenOptions::new()
-        .write(true)
-        .append(true)
-        .open(bashrc_file)
-        .unwrap();
-
-    writeln!(file).unwrap();
-    writeln!(file, "# bookmark-cd init block").unwrap();
-    writeln!(file, "{}", BASH_INIT).unwrap();
-    writeln!(file).unwrap();
-}
-
 fn touch_file() {
     let mut bookmarks_file = home_dir().unwrap();
     bookmarks_file.push(".bcd");
@@ -99,5 +53,5 @@ fn touch_file() {
 /// Outputs the shell script code for the function that will call this program, this should be used by an exec command
 /// during shell initialisation, e.g. in .bashrc
 pub(crate) fn initialise_shell_script() {
-    println!("{}", include_str!("cmd.bash"));
+    println!("{}", include_str!("_cmd.sh"));
 }
