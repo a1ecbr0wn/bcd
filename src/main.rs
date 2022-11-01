@@ -36,7 +36,7 @@ fn main() {
         }
 
         if options.install {
-            init::setup_shell();
+            init::setup_shell(true);
             exit(0);
         }
 
@@ -56,7 +56,7 @@ fn main() {
             }
         } else {
             println!("Directory bookmarks file not found.");
-            init::setup_shell();
+            init::setup_shell(true);
             exit(0);
         }
 

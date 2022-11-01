@@ -31,3 +31,5 @@ pshell = "1.0.5"
 clap = { version = "4.0", features = ["derive"] }
 clap_complete = "4.0"
 clap_complete_fig = "4.0"
+home = "0.5.3"
+pshell = "1.0.5"

@@ -4,25 +4,37 @@ use std::io::prelude::*;
 
 const BASH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
-pub(crate) fn setup_shell() {
+pub(crate) fn setup_shell(interactive: bool) {
     touch_file();
     let (sh, _pid) = pshell::find().unwrap_or(("unknown".to_string(), 0));
     let shell_setup = match sh.as_str() {
         "bash" => check_bash(),
-        _ => false,
+        _ => {
+            println!("your shell [{}] is not currently supported, the following needs to be set in your shell init script:", sh.as_str());
+            println!("{}", BASH_INIT);
+            true
+        }
     };
     if !shell_setup {
-        println!("It looks like bookmark-cd (bcd) has not been set up to run in your shell [{}], do you want to set this up now? [Y/n]", sh);
-        let mut reply = String::new();
-        let _b = std::io::stdin().read_line(&mut reply).unwrap();
-        reply = reply.trim().to_string();
-        if reply.to_ascii_lowercase() == "y" || reply.to_ascii_lowercase() == "yes" {
+        if interactive {
+            println!("It looks like bookmark-cd (bcd) has not been set up to run in your shell [{}], do you want to set this up now? [Y/n]", sh);
+            let mut reply = String::new();
+            let _b = std::io::stdin().read_line(&mut reply).unwrap();
+            reply = reply.trim().to_string();
+            if reply.to_ascii_lowercase() == "y" || reply.to_ascii_lowercase() == "yes" {
+                if sh.as_str() == "bash" {
+                    setup_bash();
+                    println!("bookmark-cd (bcd) has now been set up in your shell as long as it is in your path, please restart your shell and use `bcd`");
+                } else {
+                    println!("your shell [{}] is not currently supported", sh.as_str());
+                }
+            } else {
+                println!("Setup cancelled");
+            }
+        } else {
             if sh.as_str() == "bash" {
                 setup_bash();
             }
-            println!("bookmark-cd (bcd) has now been set up in your shell as long as it is in your path, please restart your shell and use `bcd`");
-        } else {
-            println!("Setup cancelled");
         }
     }
 }
@@ -35,7 +47,13 @@ fn check_bash() -> bool {
         if let Ok(mut file) = file_res {
             let mut contents = String::new();
             match file.read_to_string(&mut contents) {
-                Ok(_) => contents.contains(BASH_INIT),
+                Ok(_) => {
+                    let rtn = contents.contains(BASH_INIT);
+                    if rtn == true {
+                        println!("bash set up for bcd");
+                    }
+                    rtn
+                }
                 Err(_) => {
                     println!("Cannot read `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]");
                     false
@@ -77,6 +95,7 @@ fn touch_file() {
     }
 }
 
+#[allow(dead_code)]
 /// Outputs the shell script code for the function that will call this program, this should be used by an exec command
 /// during shell initialisation, e.g. in .bashrc
 pub(crate) fn initialise_shell_script() {
