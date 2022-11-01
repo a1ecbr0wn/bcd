@@ -14,7 +14,7 @@ pub(crate) fn check_bash() -> bool {
             match file.read_to_string(&mut contents) {
                 Ok(_) => {
                     let rtn = contents.contains(BASH_INIT);
-                    if rtn == true {
+                    if rtn {
                         println!("bash set up for bcd");
                     }
                     rtn

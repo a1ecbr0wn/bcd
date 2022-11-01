@@ -14,7 +14,7 @@ pub(crate) fn check_zsh() -> bool {
             match file.read_to_string(&mut contents) {
                 Ok(_) => {
                     let rtn = contents.contains(ZSH_INIT);
-                    if rtn == true {
+                    if rtn {
                         println!("zsh set up for bcd");
                     }
                     rtn

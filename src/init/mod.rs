@@ -41,8 +41,10 @@ pub(crate) fn setup_shell(interactive: bool) {
                 println!("Setup cancelled");
             }
         } else {
-            if sh.as_str() == "bash" {
-                setup_bash();
+            match sh.as_str() {
+                "bash" => setup_bash(),
+                "zsh" => setup_zsh(),
+                _ => {}
             }
         }
     }
