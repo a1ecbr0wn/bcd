@@ -151,7 +151,7 @@ jobs:
       - name: "Create CLI Release"
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          automatic_release_tag: "latest"
+          automatic_release_tag: "${{ github.ref_name }}"
           title: "Release ${{ github.ref_name }}"
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
