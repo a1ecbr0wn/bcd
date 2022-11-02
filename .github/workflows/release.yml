@@ -136,7 +136,7 @@ jobs:
     name: "Tag Release Publish"
     runs-on: "ubuntu-latest"
     needs: [tag-release-build-linux, tag-release-build-macos]
-    if: contains('${{ github.ref }}', '-') == false
+    if: github.ref_type == 'tag' && ( contains(github.ref_name, '=') == false )
 
     steps:
       - name: "Checkout"
