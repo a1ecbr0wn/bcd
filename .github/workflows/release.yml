@@ -68,11 +68,14 @@ jobs:
       - name: "Package Release"
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
+      - name: "Generate SHA checksum"
+        run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
+
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
-          path: bcd-${{ matrix.TARGET }}.tar.gz
+          path: bcd-${{ matrix.TARGET }}.*
           retention-days: 1
 
   tag-release-build-macos:
@@ -113,11 +116,14 @@ jobs:
       - name: "Package Release"
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
+      - name: "Generate SHA checksum"
+        run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
+
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
-          path: bcd-${{ matrix.TARGET }}.tar.gz
+          path: bcd-${{ matrix.TARGET }}.*
           retention-days: 1
 
   tag-release-publish:
@@ -157,4 +163,4 @@ jobs:
           prerelease: false
           files: |
             LICENSE
-            **/bcd-*.tar.gz
+            **/bcd-*.*
