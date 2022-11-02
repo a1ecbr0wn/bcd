@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Check the rust formatting
   format:
     name: "Rust Format Check"
     runs-on: ubuntu-latest
@@ -27,6 +28,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+  # Build the Linux release artifacts
   tag-release-build-linux:
     name: "Tag Release Build - Linux"
     runs-on: "ubuntu-latest"
@@ -68,13 +70,20 @@ jobs:
       - name: "Package Release"
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
+      - name: "Generate SHA checksum"
+        run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
+
+      - name: "Generate MD5 checksum"
+        run: md5sum --tag bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
+
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
-          path: bcd-${{ matrix.TARGET }}.tar.gz
+          path: bcd-${{ matrix.TARGET }}.*
           retention-days: 1
 
+  # Build the MacOS release artifacts
   tag-release-build-macos:
     name: "Tag Release Build - MacOS"
     runs-on: "macos-latest"
@@ -113,17 +122,25 @@ jobs:
       - name: "Package Release"
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
+      - name: "Generate SHA checksum"
+        run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
+
+      - name: "Generate MD5 checksum"
+        run: md5 bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
+
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
-          path: bcd-${{ matrix.TARGET }}.tar.gz
+          path: bcd-${{ matrix.TARGET }}.*
           retention-days: 1
 
+  # Publishing to crates.io - this will be skipped if the tag as a '-' in it for testing purposes
   tag-release-publish:
     name: "Tag Release Publish"
     runs-on: "ubuntu-latest"
     needs: [tag-release-build-linux, tag-release-build-macos]
+    if: github.ref_type == 'tag' && ( contains(github.ref_name, '-') == false ) 
 
     steps:
       - name: "Checkout"
@@ -136,6 +153,7 @@ jobs:
         with:
           command: publish
 
+  # Package the artifacts as a release package
   tag-release-package:
     name: "Tag Release Package"
     runs-on: "ubuntu-latest"
@@ -157,4 +175,4 @@ jobs:
           prerelease: false
           files: |
             LICENSE
-            **/bcd-*.tar.gz
+            **/bcd-*.*
