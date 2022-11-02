@@ -71,6 +71,9 @@ jobs:
       - name: "Generate SHA checksum"
         run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
 
+      - name: "Generate MD5 checksum"
+        run: md5sum --tag bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
+
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
         with:
@@ -119,6 +122,9 @@ jobs:
       - name: "Generate SHA checksum"
         run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
 
+      - name: "Generate MD5 checksum"
+        run: md5 bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
+
       - name: "Upload the artifact with the workflow run"
         uses: actions/upload-artifact@v3
         with:
@@ -135,12 +141,14 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      - name: "Publish Application to crates.io"
-        env:
-          CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_TOKEN }}"
-        uses: actions-rs/cargo@v1
-        with:
-          command: publish
+      - run: echo "${{ github.ref }}"
+
+      # - name: "Publish Application to crates.io"
+      #   env:
+      #     CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_TOKEN }}"
+      #   uses: actions-rs/cargo@v1
+      #   with:
+      #     command: publish
 
   tag-release-package:
     name: "Tag Release Package"

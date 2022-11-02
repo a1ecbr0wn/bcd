@@ -7,6 +7,10 @@ Cargo.lock
 /.idea
 *.iml
 
+# Checksums
+*.sha
+*.md5
+
 # MacOS
 .DS_Store
 
