@@ -177,8 +177,9 @@ jobs:
             LICENSE
             **/bcd-*.*
 
+  # Kick off the workflow in the tap repo (a1ecbr0wn/homebrew-bcd) that will generate the homebrew formula 
   generate-formula:
-    name: "Generate homebrew formula"
+    name: "Initiare the generation homebrew formula"
     runs-on: ubuntu-latest
     needs: [tag-release-build-linux, tag-release-build-macos]
     steps:
