@@ -1,0 +1,20 @@
+---
+name: Test Call to homebrew-bcd
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  generate-formula:
+    runs-on: ubuntu-latest
+    name: "Generate homebrew formula"
+    steps:
+      - name: "Repository Dispatch"
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: a1ecbr0wn/homebrew-bcd
+          event-type: generate-formula
+          client-payload: '{"ref": "v0.2.2" "}'
