@@ -125,9 +125,9 @@ fn main() {
 
 fn persist(bookmarks: &BTreeMap<String, String>, path: &Path) -> Result<()> {
     let mut wtr = Writer::from_path(path)?;
-    wtr.write_record(&["bookmark", "path"])?;
+    wtr.write_record(["bookmark", "path"])?;
     for bookmark in bookmarks.iter() {
-        wtr.write_record(&[bookmark.0, bookmark.1])?;
+        wtr.write_record([bookmark.0, bookmark.1])?;
     }
     wtr.flush()?;
     Ok(())
