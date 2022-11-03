@@ -16,5 +16,6 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           repo: a1ecbr0wn/homebrew-bcd
+          ref: refs/heads/main
           workflow: tap.yml
           inputs: '{ "tap_version": "v0.2.2" }'
