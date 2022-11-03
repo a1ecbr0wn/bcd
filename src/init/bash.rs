@@ -33,15 +33,18 @@ pub(crate) fn check_bash() -> bool {
 pub(crate) fn setup_bash() {
     let mut bashrc_file = home_dir().unwrap();
     bashrc_file.push(".bashrc");
+    if bashrc_file.exists() {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open(bashrc_file)
+            .unwrap();
 
-    let mut file = OpenOptions::new()
-        .write(true)
-        .append(true)
-        .open(bashrc_file)
-        .unwrap();
-
-    writeln!(file).unwrap();
-    writeln!(file, "# bookmark-cd init block").unwrap();
-    writeln!(file, "{}", BASH_INIT).unwrap();
-    writeln!(file).unwrap();
+        writeln!(file).unwrap();
+        writeln!(file, "# bookmark-cd init block").unwrap();
+        writeln!(file, "{}", BASH_INIT).unwrap();
+        writeln!(file).unwrap();
+    } else {
+        println!("shell init script[{}] not found", bashrc_file.to_str().unwrap());
+    }
 }

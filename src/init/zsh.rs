@@ -33,15 +33,18 @@ pub(crate) fn check_zsh() -> bool {
 pub(crate) fn setup_zsh() {
     let mut zshrc_file = home_dir().unwrap();
     zshrc_file.push(".zshrc");
+    if zshrc_file.exists() {
+        let mut file = OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open(zshrc_file)
+            .unwrap();
 
-    let mut file = OpenOptions::new()
-        .write(true)
-        .append(true)
-        .open(zshrc_file)
-        .unwrap();
-
-    writeln!(file).unwrap();
-    writeln!(file, "# bookmark-cd init block").unwrap();
-    writeln!(file, "{}", ZSH_INIT).unwrap();
-    writeln!(file).unwrap();
+        writeln!(file).unwrap();
+        writeln!(file, "# bookmark-cd init block").unwrap();
+        writeln!(file, "{}", ZSH_INIT).unwrap();
+        writeln!(file).unwrap();
+    } else {
+        println!("shell init script[{}] not found", zshrc_file.to_str().unwrap());
+    }
 }
