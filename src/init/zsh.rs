@@ -45,6 +45,9 @@ pub(crate) fn setup_zsh() {
         writeln!(file, "{}", ZSH_INIT).unwrap();
         writeln!(file).unwrap();
     } else {
-        println!("shell init script[{}] not found", zshrc_file.to_str().unwrap());
+        println!(
+            "shell init script[{}] not found",
+            zshrc_file.to_str().unwrap()
+        );
     }
 }
