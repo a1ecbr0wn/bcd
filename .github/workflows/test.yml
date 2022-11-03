@@ -12,9 +12,9 @@ jobs:
     name: "Generate homebrew formula"
     steps:
       - name: "Repository Dispatch"
-        uses: peter-evans/repository-dispatch@v2
+        uses: benc-uk/workflow-dispatch@v1
         with:
           token: ${{ secrets.PAT }}
-          repository: a1ecbr0wn/homebrew-bcd
-          event-type: generate-formula
-          client-payload: '{"tap_version": "v0.2.2" }'
+          repo: a1ecbr0wn/homebrew-bcd
+          workflow: tap.yml
+          inputs: '{ "tap_version": "v0.2.2" }'
