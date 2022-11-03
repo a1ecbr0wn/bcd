@@ -17,4 +17,4 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: a1ecbr0wn/homebrew-bcd
           event-type: generate-formula
-          client-payload: '{"ref": "v0.2.2" }'
+          client-payload: '{"tap_version": "v0.2.2" }'
