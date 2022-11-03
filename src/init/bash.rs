@@ -45,6 +45,9 @@ pub(crate) fn setup_bash() {
         writeln!(file, "{}", BASH_INIT).unwrap();
         writeln!(file).unwrap();
     } else {
-        println!("shell init script[{}] not found", bashrc_file.to_str().unwrap());
+        println!(
+            "shell init script[{}] not found",
+            bashrc_file.to_str().unwrap()
+        );
     }
 }
