@@ -176,3 +176,17 @@ jobs:
           files: |
             LICENSE
             **/bcd-*.*
+
+  generate-formula:
+    name: "Generate homebrew formula"
+    runs-on: ubuntu-latest
+    needs: [tag-release-build-linux, tag-release-build-macos]
+    steps:
+      - name: "Repository Dispatch"
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }}
+          repo: a1ecbr0wn/homebrew-bcd
+          ref: refs/heads/main
+          workflow: tap.yml
+          inputs: '{ "tap_version": "${{ github.ref_name }}" }'
