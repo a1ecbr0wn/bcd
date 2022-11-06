@@ -12,10 +12,7 @@ mod cli;
 mod init;
 
 fn main() {
-    let (_shell_name, shell_setup) = init::check_shell();
-    if !shell_setup {
-        init::setup_shell(true);
-    } else {
+    if init::setup_shell(true) {
         let args: Vec<String> = env::args().collect();
         let options = cli::Options::parse();
 

@@ -23,27 +23,38 @@ pub(crate) fn check_shell() -> (String, bool) {
     (shell_name, setup)
 }
 
-pub(crate) fn setup_shell(interactive: bool) {
+pub(crate) fn setup_shell(interactive: bool) -> bool {
     touch_file();
     let (shell_name, shell_setup) = check_shell();
     if !shell_setup {
         if interactive {
-            println!("It looks like bookmark-cd (bcd) has not been set up to run in your shell [{}], do you want to set this up now? [Y/n]", shell_name);
+            println!(
+                "It looks like bookmark-cd (bcd) has not been set up to run in your shell [{}].",
+                shell_name
+            );
+            println!("Do you want to set this up now? [Y/n]");
             let mut reply = String::new();
             let _b = std::io::stdin().read_line(&mut reply).unwrap();
             reply = reply.trim().to_string();
-            if reply.to_ascii_lowercase() == "y" || reply.to_ascii_lowercase() == "yes" {
-                if shell_name.as_str() == "bash" {
-                    setup_bash();
-                    println!("bookmark-cd (bcd) has now been set up in your shell as long as it is in your path, please restart your shell and use `bcd`");
-                } else if shell_name.as_str() == "zsh" {
-                    setup_zsh();
-                    println!("bookmark-cd (bcd) has now been set up in your shell as long as it is in your path, please restart your shell and use `bcd`");
-                } else {
-                    println!(
-                        "your shell [{}] is not currently supported",
-                        shell_name.as_str()
-                    );
+            if reply.to_ascii_lowercase() == "y"
+                || reply.to_ascii_lowercase() == "yes"
+                || reply.is_empty()
+            {
+                match shell_name.as_str() {
+                    "bash" => {
+                        setup_bash();
+                        println!("Your shell init script has been set up, restart your shell and type `bcd`");
+                    },
+                    "zsh" => {
+                        setup_zsh();
+                        println!("Your shell init script has been set up, restart your shell and type `bcd`");
+                    },
+                    _ => {
+                        println!(
+                            "your shell [{}] is not currently supported",
+                            shell_name.as_str()
+                        );
+                    }
                 }
             } else {
                 println!("Setup cancelled");
@@ -55,9 +66,13 @@ pub(crate) fn setup_shell(interactive: bool) {
                 _ => {}
             }
         }
+        false
+    } else {
+        true
     }
 }
 
+/// Touches the bcd store file
 fn touch_file() {
     let mut bookmarks_file = home_dir().unwrap();
     bookmarks_file.push(".bcd");
