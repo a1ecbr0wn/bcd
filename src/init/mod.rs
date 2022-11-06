@@ -44,11 +44,11 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                     "bash" => {
                         setup_bash();
                         println!("Your shell init script has been set up, restart your shell and type `bcd`");
-                    },
+                    }
                     "zsh" => {
                         setup_zsh();
                         println!("Your shell init script has been set up, restart your shell and type `bcd`");
-                    },
+                    }
                     _ => {
                         println!(
                             "your shell [{}] is not currently supported",
