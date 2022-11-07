@@ -30,7 +30,7 @@ pub(crate) fn check_bash() -> bool {
     }
 }
 
-pub(crate) fn setup_bash() {
+pub(crate) fn setup_bash(interactive: bool) {
     let mut bashrc_file = home_dir().unwrap();
     bashrc_file.push(".bashrc");
     if bashrc_file.exists() {
@@ -44,10 +44,15 @@ pub(crate) fn setup_bash() {
         writeln!(file, "# bookmark-cd init block").unwrap();
         writeln!(file, "{}", BASH_INIT).unwrap();
         writeln!(file).unwrap();
+        if interactive {
+            println!("Your shell init script has been set up, restart your shell and type `bcd`");
+        }
     } else {
-        println!(
-            "shell init script[{}] not found",
-            bashrc_file.to_str().unwrap()
-        );
+        if interactive {
+            println!(
+                "Shell init script [{}] not found",
+                bashrc_file.to_str().unwrap()
+            );
+        }
     }
 }

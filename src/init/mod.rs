@@ -42,12 +42,10 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
             {
                 match shell_name.as_str() {
                     "bash" => {
-                        setup_bash();
-                        println!("Your shell init script has been set up, restart your shell and type `bcd`");
+                        setup_bash(interactive);
                     }
                     "zsh" => {
-                        setup_zsh();
-                        println!("Your shell init script has been set up, restart your shell and type `bcd`");
+                        setup_zsh(interactive);
                     }
                     _ => {
                         println!(
@@ -61,8 +59,8 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
             }
         } else {
             match shell_name.as_str() {
-                "bash" => setup_bash(),
-                "zsh" => setup_zsh(),
+                "bash" => setup_bash(interactive),
+                "zsh" => setup_zsh(interactive),
                 _ => {}
             }
         }

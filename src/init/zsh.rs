@@ -30,7 +30,7 @@ pub(crate) fn check_zsh() -> bool {
     }
 }
 
-pub(crate) fn setup_zsh() {
+pub(crate) fn setup_zsh(interactive: bool) {
     let mut zshrc_file = home_dir().unwrap();
     zshrc_file.push(".zshrc");
     if zshrc_file.exists() {
@@ -44,10 +44,15 @@ pub(crate) fn setup_zsh() {
         writeln!(file, "# bookmark-cd init block").unwrap();
         writeln!(file, "{}", ZSH_INIT).unwrap();
         writeln!(file).unwrap();
+        if interactive {
+            println!("Your shell init script has been set up, restart your shell and type `bcd`");
+        }
     } else {
-        println!(
-            "shell init script[{}] not found",
-            zshrc_file.to_str().unwrap()
-        );
+        if interactive {
+            println!(
+                "Shell init script [{}] not found",
+                zshrc_file.to_str().unwrap()
+            );
+        }
     }
 }
