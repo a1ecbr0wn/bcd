@@ -15,13 +15,13 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        if init::setup_shell(true) {
-            exit(0);
-        } else {
-            exit(1);
-        }
+        // If you are running this for the first time, set up your shell
+        init::setup_shell(false);
+        let _options = cli::Options::parse();
+        exit(0);
     } else {
         if args.contains(&("init".to_string())) {
+            // Not called directly, but called by the shell function `bcd` set up in the shell init script
             init::initialise_shell_script();
             exit(0);
         }
@@ -34,6 +34,12 @@ fn main() {
                 env!("CARGO_PKG_VERSION")
             );
         };
+
+        if options.install {
+            // a way to try to set up the shell init script when the data file exists but the `bcd` function is not.
+            init::setup_shell(true);
+            exit(0);
+        }
 
         if options.version {
             println!("{}", DESCRIPTION.as_str());

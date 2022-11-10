@@ -34,25 +34,29 @@ pub(crate) fn setup_zsh(interactive: bool) {
     let mut zshrc_file = home_dir().unwrap();
     zshrc_file.push(".zshrc");
     if zshrc_file.exists() {
-        let mut file = OpenOptions::new()
-            .write(true)
-            .append(true)
-            .open(zshrc_file)
-            .unwrap();
-
-        writeln!(file).unwrap();
-        writeln!(file, "# bookmark-cd init block").unwrap();
-        writeln!(file, "{}", ZSH_INIT).unwrap();
-        writeln!(file).unwrap();
-        if interactive {
-            println!("Your shell init script has been set up, restart your shell and type `bcd`");
+        let res = OpenOptions::new().write(true).append(true).open(zshrc_file);
+        match res {
+            Ok(mut file) => {
+                writeln!(file).unwrap();
+                writeln!(file, "# bookmark-cd init block").unwrap();
+                writeln!(file, "{}", ZSH_INIT).unwrap();
+                writeln!(file).unwrap();
+                if interactive {
+                    println!(
+                        "Your shell init script has been set up, restart your shell and type `bcd`"
+                    );
+                }
+            }
+            Err(_) => {
+                if interactive {
+                    println!("Unable to open your shell init script.");
+                }
+            }
         }
-    } else {
-        if interactive {
-            println!(
-                "Shell init script [{}] not found",
-                zshrc_file.to_str().unwrap()
-            );
-        }
+    } else if interactive {
+        println!(
+            "Shell init script [{}] not found",
+            zshrc_file.to_str().unwrap()
+        );
     }
 }

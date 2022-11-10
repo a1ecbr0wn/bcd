@@ -34,25 +34,32 @@ pub(crate) fn setup_bash(interactive: bool) {
     let mut bashrc_file = home_dir().unwrap();
     bashrc_file.push(".bashrc");
     if bashrc_file.exists() {
-        let mut file = OpenOptions::new()
+        let res = OpenOptions::new()
             .write(true)
             .append(true)
-            .open(bashrc_file)
-            .unwrap();
-
-        writeln!(file).unwrap();
-        writeln!(file, "# bookmark-cd init block").unwrap();
-        writeln!(file, "{}", BASH_INIT).unwrap();
-        writeln!(file).unwrap();
-        if interactive {
-            println!("Your shell init script has been set up, restart your shell and type `bcd`");
+            .open(bashrc_file);
+        match res {
+            Ok(mut file) => {
+                writeln!(file).unwrap();
+                writeln!(file, "# bookmark-cd init block").unwrap();
+                writeln!(file, "{}", BASH_INIT).unwrap();
+                writeln!(file).unwrap();
+                if interactive {
+                    println!(
+                        "Your shell init script has been set up, restart your shell and type `bcd`"
+                    );
+                }
+            }
+            Err(_) => {
+                if interactive {
+                    println!("Unable to open your shell init script.");
+                }
+            }
         }
-    } else {
-        if interactive {
-            println!(
-                "Shell init script [{}] not found",
-                bashrc_file.to_str().unwrap()
-            );
-        }
+    } else if interactive {
+        println!(
+            "Shell init script [{}] not found",
+            bashrc_file.to_str().unwrap()
+        );
     }
 }

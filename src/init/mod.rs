@@ -1,5 +1,6 @@
 use home::home_dir;
 use std::fs::File;
+use std::process::exit;
 
 mod bash;
 use bash::{check_bash, setup_bash};
@@ -9,9 +10,17 @@ use zsh::{check_zsh, setup_zsh};
 
 const SH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
+// Check that the .bcd data file exists and the shell init script is setup
+pub(crate) fn check_bookmarks_file() -> bool {
+    let mut bookmarks_file = home_dir().unwrap();
+    bookmarks_file.push(".bcd");
+    bookmarks_file.exists()
+}
+
+// Check that the shell init script is setup
 pub(crate) fn check_shell() -> (String, bool) {
     let (shell_name, _pid) = pshell::find().unwrap_or(("unknown".to_string(), 0));
-    let setup = match shell_name.as_str() {
+    let shell_init_setup = match shell_name.as_str() {
         "bash" => check_bash(),
         "zsh" => check_zsh(),
         _ => {
@@ -20,13 +29,22 @@ pub(crate) fn check_shell() -> (String, bool) {
             true
         }
     };
-    (shell_name, setup)
+    (shell_name, shell_init_setup)
 }
 
-pub(crate) fn setup_shell(interactive: bool) -> bool {
-    touch_file();
-    let (shell_name, shell_setup) = check_shell();
-    if !shell_setup {
+// Attempt to setup your shell, can be run in interactive mode or not, and exits the process if cancelled unexpectantly.
+pub(crate) fn setup_shell(interactive: bool) {
+    let bookmarks_file_exists = check_bookmarks_file();
+    if !bookmarks_file_exists {
+        let mut bookmarks_file = home_dir().unwrap();
+        bookmarks_file.push(".bcd");
+        if !bookmarks_file.exists() {
+            let _ = File::create(bookmarks_file);
+        }
+    }
+
+    let (shell_name, shell_init_setup) = check_shell();
+    if !shell_init_setup {
         if interactive {
             println!(
                 "It looks like bookmark-cd (bcd) has not been set up to run in your shell [{}].",
@@ -56,6 +74,7 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                 }
             } else {
                 println!("Setup cancelled");
+                exit(1);
             }
         } else {
             match shell_name.as_str() {
@@ -64,18 +83,6 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                 _ => {}
             }
         }
-        false
-    } else {
-        true
-    }
-}
-
-/// Touches the bcd store file
-fn touch_file() {
-    let mut bookmarks_file = home_dir().unwrap();
-    bookmarks_file.push(".bcd");
-    if !bookmarks_file.exists() {
-        let _ = File::create(bookmarks_file);
     }
 }
 

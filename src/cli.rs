@@ -2,27 +2,31 @@ use clap::Parser;
 
 /// Struct containing the parsed command line arguments
 #[derive(Parser)]
-#[clap(name = "bcd")]
-#[clap(bin_name = "bcd")]
-#[clap(author, version, about, long_about = None, arg_required_else_help(true), disable_version_flag(true))]
+#[command(name = "bcd")]
+#[command(bin_name = "bcd")]
+#[command(author, version, about, long_about = None, arg_required_else_help(true), disable_version_flag(true))]
 pub struct Options {
-    /// Print version information
-    #[clap(short = 'V', long, value_parser)]
-    pub version: bool,
+    /// Bookmarked directory to change to
+    #[arg(value_parser)]
+    pub bookmark: Option<String>,
 
-    /// List the bookmarks
-    #[clap(short, long, value_parser)]
-    pub list: bool,
+    /// Setup the the shell init script
+    #[arg(short, long, value_parser, display_order(0), hide(true))]
+    pub install: bool,
 
     /// Store the current directory as a bookmark STORE
-    #[clap(short, long, value_parser)]
+    #[arg(short, long, value_parser, display_order(1))]
     pub store: Option<String>,
 
     /// Remove a specified bookmark REMOVE
-    #[clap(short, long, value_parser)]
+    #[arg(short, long, value_parser, display_order(2))]
     pub remove: Option<String>,
 
-    /// Bookmarked directory to change to
-    #[clap(value_parser)]
-    pub bookmark: Option<String>,
+    /// List the stored bookmarks
+    #[arg(short, long, value_parser, display_order(3))]
+    pub list: bool,
+
+    /// Print version information
+    #[arg(short = 'V', long, value_parser, display_order(4))]
+    pub version: bool,
 }
