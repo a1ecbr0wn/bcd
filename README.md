@@ -41,7 +41,7 @@ cargo install bookmark-cd
 
 ### Snapcraft
 
-Working on it...  
+Working on it, once this has been approved to be in the snap store...
 
 ``` sh
 snap install bookmark-cd
