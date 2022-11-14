@@ -41,7 +41,22 @@ cargo install bookmark-cd
 
 ### Snapcraft
 
-Working on it...  for any other package managers please raise an [issue](https://github.com/a1ecbr0wn/bcd/issues)
+Working on it...  
+
+``` sh
+snap install bookmark-cd
+```
+
+Snapcraft does not allow write access to the shell init scripts which are required to set up `bcd` so the following commmand should be set up manually in your `~/.bashrc` if you are using bash or `~/.zshrc` if you are using zsh as your shell:
+
+``` sh
+# bookmark-cd init block
+eval "$(bookmark-cd init)"   
+```
+
+### Other package managers
+
+... for any other package managers please raise an [issue](https://github.com/a1ecbr0wn/bcd/issues)
 
 ### Installation issues - Setup your environment
 
