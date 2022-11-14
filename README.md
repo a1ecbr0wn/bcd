@@ -17,19 +17,13 @@
 brew tap a1ecbr0wn/bcd
 ```
 
-and then run the install:
+then run the install:
 
 ``` sh
 brew install bcd
 ```
 
-Run this command to set up your shell (bash or zsh):
-
-``` sh
-bookmark-cd
-```
-
-and then restart your shell
+and then restart your shell.
 
 ### Cargo
 
