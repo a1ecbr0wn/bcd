@@ -17,5 +17,8 @@ Cargo.lock
 # Snapcraft Builds
 *.snap
 
+<<<<<<< HEAD
 # this is stored is a different repo
 snapcraft.yaml  
+=======
+>>>>>>> 6a2c6f7 (gitignore change)
