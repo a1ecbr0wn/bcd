@@ -4,6 +4,12 @@ use std::io::prelude::*;
 
 const BASH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
+pub(crate) fn instructions_bash() {
+    println!("To complete setup, please edit your ~/.bashrc file and insert the following to the end of the file:");
+    println!("# bookmark-cd init block");
+    println!("{}", BASH_INIT);
+}
+
 pub(crate) fn check_bash() -> bool {
     let mut bashrc_file = home_dir().unwrap();
     bashrc_file.push(".bashrc");
@@ -14,18 +20,20 @@ pub(crate) fn check_bash() -> bool {
             match file.read_to_string(&mut contents) {
                 Ok(_) => contents.contains(BASH_INIT),
                 Err(_) => {
-                    println!("Cannot read `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]");
+                    println!("Cannot read `~/.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]");
                     false
                 }
             }
         } else {
             println!(
-                "Cannot open `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]"
+                "Cannot open `~/.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]"
             );
             false
         }
     } else {
-        println!("Cannot find `.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]");
+        println!(
+            "Cannot find `~/.bashrc` to install bookmark-cd (bcd) to run in your shell [bash]"
+        );
         false
     }
 }

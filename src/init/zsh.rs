@@ -4,6 +4,12 @@ use std::io::prelude::*;
 
 const ZSH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
+pub(crate) fn instructions_zsh() {
+    println!("To complete setup, please edit your ~/.zshrc file and insert the following to the end of the file:");
+    println!("# bookmark-cd init block");
+    println!("{}", ZSH_INIT);
+}
+
 pub(crate) fn check_zsh() -> bool {
     let mut zshrc_file = home_dir().unwrap();
     zshrc_file.push(".zshrc");
@@ -14,18 +20,18 @@ pub(crate) fn check_zsh() -> bool {
             match file.read_to_string(&mut contents) {
                 Ok(_) => contents.contains(ZSH_INIT),
                 Err(_) => {
-                    println!("Cannot read `.zshrc` to install bookmark-cd (bcd) to run in your shell [zsh]");
+                    println!("Cannot read `~/.zshrc` to install bookmark-cd (bcd) to run in your shell [zsh]");
                     false
                 }
             }
         } else {
             println!(
-                "Cannot open `.zshrc` to install bookmark-cd (bcd) to run in your shell [zsh]"
+                "Cannot open `~/.zshrc` to install bookmark-cd (bcd) to run in your shell [zsh]"
             );
             false
         }
     } else {
-        println!("Cannot find `.zshrc` to install bookmark-cd (bcd) to run in your shell [zsh]");
+        println!("Cannot find `~/.zshrc` to install bookmark-cd (bcd) to run in your shell [zsh]");
         false
     }
 }
