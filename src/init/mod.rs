@@ -1,7 +1,7 @@
 use home::home_dir;
+use std::env;
 use std::fs::File;
 use std::process::exit;
-use std::env;
 
 mod bash;
 use bash::{check_bash, instructions_bash, setup_bash};
