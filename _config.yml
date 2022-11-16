@@ -2,7 +2,7 @@
 title: bcd
 description: Bookmark Change Directory
 
-# Using Hacker theme: https://github.com/pages-themes/hacker
-remote_theme: pages-themes/hacker@v0.2.0
+# Using Midnight theme: https://github.com/pages-themes/midnight
+remote_theme: pages-themes/midnight@v0.2.0
 plugins:
 - jekyll-remote-theme
