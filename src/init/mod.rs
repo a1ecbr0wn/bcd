@@ -1,9 +1,15 @@
 use home::home_dir;
+<<<<<<< HEAD
 use std::fs::{File, OpenOptions};
 use std::io::prelude::*;
 use std::path::PathBuf;
 use std::process::exit;
 use std::process::Command;
+=======
+use std::env;
+use std::fs::File;
+use std::process::exit;
+>>>>>>> 8bb22af (Format Rust code using rustfmt)
 
 mod snap;
 use snap::check_in_snap;
