@@ -30,14 +30,12 @@ pub(crate) fn check_shell() -> (String, bool, bool) {
             true
         }
     };
-    (shell_name, shell_init_setup, true)
+    let in_snap = env::var("SNAP_NAME").is_ok();
+    (shell_name, shell_init_setup, in_snap)
 }
 
 // Attempt to setup your shell, can be run in interactive mode or not, and exits the process if cancelled unexpectantly.
 pub(crate) fn setup_shell(interactive: bool) {
-    for (key, value) in env::vars() {
-        println!("{key}: {value}");
-    }
     let bookmarks_file_exists = check_bookmarks_file();
     if !bookmarks_file_exists {
         let mut bookmarks_file = home_dir().unwrap();
@@ -55,6 +53,9 @@ pub(crate) fn setup_shell(interactive: bool) {
                 shell_name
             );
             if in_snap {
+                for (key, value) in env::vars() {
+                    println!("{key}: {value}");
+                }
                 println!(
                     "You appear to have installed bcd from snap, so this cannot be set up automatically."
                 );
