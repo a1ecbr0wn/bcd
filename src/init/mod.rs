@@ -12,7 +12,6 @@ use bash::{check_bash, instructions_bash, setup_bash};
 mod zsh;
 use zsh::{check_zsh, instructions_zsh, setup_zsh};
 
-
 const SH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
 // Check that the .bcd data file exists and the shell init script is setup
