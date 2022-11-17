@@ -3,11 +3,15 @@ use std::env;
 use std::fs::File;
 use std::process::exit;
 
+mod snap;
+use snap::check_in_snap;
+
 mod bash;
 use bash::{check_bash, instructions_bash, setup_bash};
 
 mod zsh;
 use zsh::{check_zsh, instructions_zsh, setup_zsh};
+
 
 const SH_INIT: &str = "eval \"$(bookmark-cd init)\"";
 
@@ -30,7 +34,14 @@ pub(crate) fn check_shell() -> (String, bool, bool) {
             true
         }
     };
-    let in_snap = env::var("SNAP_NAME").is_ok();
+    let in_snap = check_in_snap();
+    if in_snap {
+        println!("You are running in a snap");
+    } else {
+        for (key, value) in env::vars() {
+            println!("{key}: {value}");
+        }
+    }
     (shell_name, shell_init_setup, in_snap)
 }
 
@@ -53,9 +64,6 @@ pub(crate) fn setup_shell(interactive: bool) {
                 shell_name
             );
             if in_snap {
-                for (key, value) in env::vars() {
-                    println!("{key}: {value}");
-                }
                 println!(
                     "You appear to have installed bcd from snap, so this cannot be set up automatically."
                 );
