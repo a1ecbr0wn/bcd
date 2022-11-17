@@ -4,7 +4,7 @@ use std::fs::File;
 use std::process::exit;
 
 mod snap;
-use snap::check_in_snap;
+use snap::{check_in_snap, snap_connect_bashrc, snap_connect_zshrc};
 
 mod bash;
 use bash::{check_bash, instructions_bash, setup_bash};
@@ -34,6 +34,7 @@ pub(crate) fn check_shell() -> (String, bool, bool) {
         }
     };
     let in_snap = check_in_snap();
+    // DEBUG : TO REMOVE
     if in_snap {
         println!("You are running in a snap");
     } else {
@@ -41,6 +42,12 @@ pub(crate) fn check_shell() -> (String, bool, bool) {
             println!("{key}: {value}");
         }
     }
+    if shell_init_setup {
+        println!("Init is set up");
+    } else {
+        println!("Init is not set up");
+    }
+    // DEBUG : TO REMOVE
     (shell_name, shell_init_setup, in_snap)
 }
 
@@ -67,8 +74,16 @@ pub(crate) fn setup_shell(interactive: bool) {
                     "You appear to have installed bcd from snap, so this cannot be set up automatically."
                 );
                 match shell_name.as_str() {
-                    "bash" => instructions_bash(),
-                    "zsh" => instructions_zsh(),
+                    "bash" => {
+                        if !snap_connect_bashrc() {
+                            instructions_bash();
+                        }
+                    }
+                    "zsh" => {
+                        if !snap_connect_zshrc() {
+                            instructions_zsh();
+                        }
+                    }
                     _ => {}
                 }
             } else {
