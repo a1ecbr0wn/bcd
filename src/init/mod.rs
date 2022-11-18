@@ -78,7 +78,6 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
     } else {
         true
     }
-    
 }
 
 fn instructions_shell_script(init: PathBuf) {
