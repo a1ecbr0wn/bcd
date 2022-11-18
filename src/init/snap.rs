@@ -1,16 +1,15 @@
 use std::env;
+use std::path::{Path, PathBuf};
 
 /// Checks to see whether we are operating within a snap
-pub(crate) fn check_in_snap() -> bool {
-    env::var("SNAP_NAME").is_ok()
-}
-
-/// Check whether the dot-bashrc snap interface is connected
-pub(crate) fn snap_connect_bashrc() -> bool {
-    false
-}
-
-/// Check whether the dot-zshrc snap interface is connected
-pub(crate) fn snap_connect_zshrc() -> bool {
-    false
+pub(crate) fn check_in_snap() -> (bool, Option<PathBuf>) {
+    if env::var("SNAP_NAME").is_ok() {
+        if let Ok(host_home_str) = env::var("SNAP_REAL_HOME") {
+            (true, Some(Path::new(host_home_str.as_str()).to_path_buf()))
+        } else {
+            (true, None)
+        }
+    } else {
+        (false, None)
+    }
 }

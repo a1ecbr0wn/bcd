@@ -17,3 +17,5 @@ Cargo.lock
 # Snapcraft Builds
 *.snap
 
+# this is stored is a different repo
+snapcraft.yaml  
