@@ -18,7 +18,7 @@ pub(crate) fn check_bookmarks_file() -> bool {
 }
 
 // Attempt to setup your shell, can be run in interactive mode or not, and exits the process if cancelled unexpectantly.
-pub(crate) fn setup_shell(interactive: bool) {
+pub(crate) fn setup_shell(interactive: bool) -> bool {
     let bookmarks_file_exists = check_bookmarks_file();
     if !bookmarks_file_exists {
         let mut bookmarks_file = home_dir().unwrap();
@@ -48,6 +48,7 @@ pub(crate) fn setup_shell(interactive: bool) {
                     );
                 }
                 instructions_shell_script(shell.init);
+                false
             } else {
                 println!("Do you want to set this up now? [Y/n]");
                 let mut reply = String::new();
@@ -62,8 +63,9 @@ pub(crate) fn setup_shell(interactive: bool) {
                             "your shell [{}] is not currently supported",
                             shell.name.as_str()
                         );
+                        false
                     } else {
-                        setup_init_file(interactive, shell.init);
+                        setup_init_file(interactive, shell.init)
                     }
                 } else {
                     println!("Setup cancelled");
@@ -71,9 +73,12 @@ pub(crate) fn setup_shell(interactive: bool) {
                 }
             }
         } else {
-            setup_init_file(interactive, shell.init);
+            setup_init_file(interactive, shell.init)
         }
+    } else {
+        true
     }
+    
 }
 
 fn instructions_shell_script(init: PathBuf) {
@@ -82,7 +87,7 @@ fn instructions_shell_script(init: PathBuf) {
     println!("    {}", SH_INIT);
 }
 
-fn setup_init_file(interactive: bool, init_file: PathBuf) {
+fn setup_init_file(interactive: bool, init_file: PathBuf) -> bool {
     if init_file.exists() {
         let res = OpenOptions::new().write(true).append(true).open(init_file);
         match res {
@@ -96,10 +101,11 @@ fn setup_init_file(interactive: bool, init_file: PathBuf) {
                         "Your shell init script has been set up, restart your shell and type `bcd`"
                     );
                 }
+                true
             }
             Err(_) => {
                 println!("Please run bookmark-cd -i to setup");
-                exit(1);
+                false
             }
         }
     } else if interactive {
@@ -107,6 +113,9 @@ fn setup_init_file(interactive: bool, init_file: PathBuf) {
             "Shell init script [{}] not found",
             init_file.to_str().unwrap()
         );
+        false
+    } else {
+        false
     }
 }
 
