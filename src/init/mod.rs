@@ -65,8 +65,7 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                         );
                         false
                     } else {
-                        let rtn = setup_init_file(interactive, shell.init);
-                        rtn
+                        setup_init_file(interactive, shell.init)
                     }
                 } else {
                     println!("Setup cancelled");
@@ -74,8 +73,7 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                 }
             }
         } else {
-            let rtn = setup_init_file(interactive, shell.init);
-            rtn
+            setup_init_file(interactive, shell.init)
         }
     } else {
         true
