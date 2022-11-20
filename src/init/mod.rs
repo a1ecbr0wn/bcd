@@ -41,7 +41,7 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                     "This may be because you have installed bcd from snap, which prevents automatic setup.\n"
                 );
                 if !shell.is_snap_connected {
-                    println!("The snap container hides files that need to be checked for setup.  Run the following command to unblock access to the required file and then try again:\n");
+                    println!("The snap container initially bocks access to shell init files that are needed to be checked for setup.  The following command can be run to unblock access to the required file and then try again:\n");
                     println!(
                         "    sudo snap connect bookmark-cd:{}\n \n",
                         shell.snap_connector
