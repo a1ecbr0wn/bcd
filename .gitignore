@@ -14,3 +14,8 @@ Cargo.lock
 # MacOS
 .DS_Store
 
+# Snapcraft Builds
+*.snap
+
+# this is stored is a different repo
+snapcraft.yaml  
