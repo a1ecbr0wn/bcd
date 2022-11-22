@@ -14,11 +14,11 @@ pub struct Options {
     #[arg(short, long, value_parser, display_order(0), hide(true))]
     pub install: bool,
 
-    /// Store the current directory as a bookmark STORE
+    /// Store the current directory as a bookmark
     #[arg(short, long, value_parser, display_order(1))]
     pub store: Option<String>,
 
-    /// Remove a specified bookmark REMOVE
+    /// Remove a specified bookmark
     #[arg(short, long, value_parser, display_order(2))]
     pub remove: Option<String>,
 

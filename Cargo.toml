@@ -1,6 +1,6 @@
 [package]
 name = "bookmark-cd"
-version = "0.2.8"
+version = "0.2.9"
 edition = "2021"
 authors = ["Alec Brown <alec@noser.net>"]
 description = "Bookmark directories and move to them"
@@ -22,9 +22,9 @@ lazy_static = "1.4.0"
 argparse = "0.2.2"
 clap = { version = "4.0", features = ["derive"] }
 csv = "1.1.6"
-home = "0.5.3"
+home = "0.5"
 tabled = "0.10.0"
-sysinfo = "0.26.2"
+sysinfo = "0.26"
 pshell = "1.0.5"
 
 [build-dependencies]
