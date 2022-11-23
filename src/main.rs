@@ -76,15 +76,22 @@ fn main() {
         }
 
         if options.store.is_some() {
-            let path = current_dir().unwrap();
-            let _rtn = bookmarks_cache.insert(
-                options.store.unwrap(),
-                path.into_os_string().into_string().unwrap(),
-            );
-            if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
-                println!("Bookmark saved");
+            match options.store {
+                Some(key) => {
+                    if key.len() < 50 {
+                        let path = current_dir().unwrap();
+                        let _rtn = bookmarks_cache
+                            .insert(key, path.into_os_string().into_string().unwrap());
+                        if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                            println!("Bookmark saved");
+                        }
+                    } else {
+                        println!("Bookmark names cannot be more than 50 characters long [{key}]")
+                    }
+                    exit(0);
+                }
+                None => {}
             }
-            exit(0);
         }
 
         if options.remove.is_some() {
