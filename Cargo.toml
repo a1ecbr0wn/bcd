@@ -19,7 +19,6 @@ name = "bookmark-cd"
 
 [dependencies]
 lazy_static = "1.4.0"
-argparse = "0.2.2"
 clap = { version = "4.0", features = ["derive"] }
 csv = "1.1.6"
 home = "0.5"
