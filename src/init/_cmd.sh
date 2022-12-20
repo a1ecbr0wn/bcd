@@ -5,4 +5,4 @@ function bcd() {
     else
         echo "$result"
     fi
- }
+}
