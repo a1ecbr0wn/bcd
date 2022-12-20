@@ -23,7 +23,7 @@ clap = { version = "4.0", features = ["derive"] }
 csv = "1.1.6"
 home = "0.5"
 tabled = "0.10.0"
-sysinfo = "0.26"
+sysinfo = "0.27"
 pshell = "1.0.5"
 
 [build-dependencies]
