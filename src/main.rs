@@ -90,12 +90,10 @@ fn main() {
                             "Failed to update `{key}` bookmark, bookmark file is not writable"
                         );
                     }
+                } else if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                    println!("Bookmark `{key}`: `{path}` saved");
                 } else {
-                    if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
-                        println!("Bookmark `{key}`: `{path}` saved");
-                    } else {
-                        println!("Failed to add `{key}` bookmark, bookmark file is not writable");
-                    }
+                    println!("Failed to add `{key}` bookmark, bookmark file is not writable");
                 }
             } else {
                 println!("Bookmark names cannot be more than 50 characters long `{key}`")
