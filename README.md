@@ -83,7 +83,7 @@ eval "$(bookmark-cd init)"
 ``` sh
 # create a bookmark to the logs directory
 cd /var/log
-bcd logs
+bcd -s logs
 
 # move to home
 cd ~
