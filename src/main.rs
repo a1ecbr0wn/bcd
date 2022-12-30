@@ -75,32 +75,41 @@ fn main() {
             }
         }
 
-        if options.store.is_some() {
-            match options.store {
-                Some(key) => {
-                    if key.len() < 50 {
-                        let path = current_dir().unwrap();
-                        let _rtn = bookmarks_cache
-                            .insert(key, path.into_os_string().into_string().unwrap());
-                        if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
-                            println!("Bookmark saved");
-                        }
+        if let Some(key) = options.store {
+            if key.len() < 50 {
+                let path = current_dir()
+                    .unwrap()
+                    .into_os_string()
+                    .into_string()
+                    .unwrap();
+                if let Some(updated) = bookmarks_cache.insert(key.clone(), path.clone()) {
+                    if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                        println!("Bookmark `{key}`: `{path}` updated from `{key}`: `{updated}`");
                     } else {
-                        println!("Bookmark names cannot be more than 50 characters long [{key}]")
+                        println!(
+                            "Failed to update `{key}` bookmark, bookmark file is not writable"
+                        );
                     }
-                    exit(0);
+                } else if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                    println!("Bookmark `{key}`: `{path}` saved");
+                } else {
+                    println!("Failed to add `{key}` bookmark, bookmark file is not writable");
                 }
-                None => {}
+            } else {
+                println!("Bookmark names cannot be more than 50 characters long `{key}`")
             }
+            exit(0);
         }
 
-        if options.remove.is_some() {
-            let to_remove = options.remove.unwrap();
-            let removed = bookmarks_cache.remove(&to_remove);
-            if removed.is_some() && persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
-                println!("Bookmark removed");
+        if let Some(key) = options.remove {
+            if let Some(removed) = bookmarks_cache.remove(&key) {
+                if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
+                    println!("Bookmark `{key}`: `{removed}` removed");
+                } else {
+                    println!("Failed to remove `{key}` bookmark, bookmark file is not writable");
+                }
             } else {
-                println!("{} is not a valid bookmark", &to_remove);
+                println!("`{}` is not a valid bookmark", &key);
             }
             exit(0);
         }
@@ -126,8 +135,8 @@ fn main() {
             exit(0);
         }
 
-        if options.bookmark.is_some() {
-            match bookmarks_cache.get(options.bookmark.unwrap().as_str()) {
+        if let Some(key) = options.bookmark {
+            match bookmarks_cache.get(key.as_str()) {
                 Some(path) => {
                     println!("cd {}", path);
                 }
