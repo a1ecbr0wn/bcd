@@ -24,7 +24,7 @@ csv = "1.1.6"
 home = "0.5"
 tabled = "0.10.0"
 sysinfo = "0.27"
-pshell = "1.0.7"
+pshell = "1.0.8"
 
 [build-dependencies]
 clap = { version = "4.0", features = ["derive"] }
