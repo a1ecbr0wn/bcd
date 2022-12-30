@@ -64,7 +64,11 @@ fn main() {
                         if record.len() >= 2 {
                             bookmarks_cache.insert(record[0].to_string(), record[1].to_string());
                         } else {
-                            println!("Reading file `{}`, skipping `{}`", bookmarks_file.display(), record.as_slice());
+                            println!(
+                                "Reading file `{}`, skipping `{}`",
+                                bookmarks_file.display(),
+                                record.as_slice()
+                            );
                         }
                     }
                 }
