@@ -72,7 +72,10 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                     }
                 }
             } else {
-                println!("Your shell `{}` is not currently supported", shell.name.as_str());
+                println!(
+                    "Your shell `{}` is not currently supported",
+                    shell.name.as_str()
+                );
                 false
             }
         } else {
@@ -174,7 +177,7 @@ impl ShellSetup {
                 if is_in_snap {
                     snap_connector = "dot-config-fish".to_string();
                 }
-                true            
+                true
             }
             "ksh" => {
                 eval = "bookmark-cd init > ~/.bcd_ksh && . ~/.bcd_ksh".to_string();
