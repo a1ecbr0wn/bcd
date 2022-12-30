@@ -77,12 +77,18 @@ fn main() {
 
         if let Some(key) = options.store {
             if key.len() < 50 {
-                let path = current_dir().unwrap().into_os_string().into_string().unwrap();
+                let path = current_dir()
+                    .unwrap()
+                    .into_os_string()
+                    .into_string()
+                    .unwrap();
                 if let Some(updated) = bookmarks_cache.insert(key.clone(), path.clone()) {
                     if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
                         println!("Bookmark `{key}`: `{path}` updated from `{key}`: `{updated}`");
                     } else {
-                        println!("Failed to update `{key}` bookmark, bookmark file is not writable");
+                        println!(
+                            "Failed to update `{key}` bookmark, bookmark file is not writable"
+                        );
                     }
                 } else {
                     if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
@@ -100,7 +106,7 @@ fn main() {
         if let Some(key) = options.remove {
             if let Some(removed) = bookmarks_cache.remove(&key) {
                 if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
-                    println!("Bookmark `{key}`: `{removed}` removed");    
+                    println!("Bookmark `{key}`: `{removed}` removed");
                 } else {
                     println!("Failed to remove `{key}` bookmark, bookmark file is not writable");
                 }
