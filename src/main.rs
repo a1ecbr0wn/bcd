@@ -61,7 +61,11 @@ fn main() {
                 Ok(mut res) => {
                     for result in res.records() {
                         let record = result.expect("a CSV record");
-                        bookmarks_cache.insert(record[0].to_string(), record[1].to_string());
+                        if record.len() >= 2 {
+                            bookmarks_cache.insert(record[0].to_string(), record[1].to_string());
+                        } else {
+                            println!("Reading file `{}`, skipping `{}`", bookmarks_file.display(), record.as_slice());
+                        }
                     }
                 }
                 _ => println!("Directory bookmarks file could not be read"),

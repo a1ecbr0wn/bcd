@@ -177,7 +177,7 @@ impl ShellSetup {
                 true            
             }
             "ksh" => {
-                eval = "bookmark-cd init > ~/.bcd && . ~/.bcd".to_string();
+                eval = "bookmark-cd init > ~/.bcd_ksh && . ~/.bcd_ksh".to_string();
                 init_cmd = include_str!("cmd_ksh.sh").to_string();
                 shell_init.push(".kshrc");
                 if is_in_snap {
