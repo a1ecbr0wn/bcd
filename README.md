@@ -98,7 +98,7 @@ The following commmand should be set in your `.config/fish/config.fish`:
 bookmark-cd init | source
 ```
 
-## How to use: create a bookmarks
+## How to use: create a bookmark
 
 ``` sh
 # create a bookmark to the logs directory
