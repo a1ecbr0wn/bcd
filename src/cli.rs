@@ -10,7 +10,7 @@ pub struct Options {
     #[arg(value_parser)]
     pub bookmark: Option<String>,
 
-    /// Setup the the shell init script
+    /// Setup the the shell startup script
     #[arg(short, long, value_parser, display_order(0), hide(true))]
     pub install: bool,
 

@@ -43,7 +43,7 @@ To install `bcd` from snap, run the following:
 snap install bookmark-cd
 ```
 
-Snapcraft does not allow write access to the shell init scripts which are required to set up `bcd` so the following commmand should be set up manually in your `~/.bashrc` if you are using bash or `~/.zshrc` if you are using zsh as your shell:
+Snapcraft does not allow write access to the shell startup scripts which are required to set up `bcd` so the following commmand should be set up manually in your `~/.bashrc` if you are using bash or `~/.zshrc` if you are using zsh as your shell:
 
 ``` sh
 # bookmark-cd init block
@@ -67,7 +67,7 @@ then restart your shell.
 
 ### Installation issues - Setup your environment
 
-After your installation, you need to restart your shell, your installation should have automatically set up the pointer to `bcd` in your shell init script.  If the command `bcd` is not working after your installation or something else has happened to change your shell scripts, running `bookmark-cd` and then restarting your shell should set this correctly.
+After your installation, you need to restart your shell, your installation should have automatically set up the pointer to `bcd` in your shell startup script.  If the command `bcd` is not working after your installation or something else has happened to change your shell scripts, running `bookmark-cd` and then restarting your shell should set this correctly.
 
 At the moment, only the `bash`, `zsh`, `ksh` and `fish` shells are supported, feel free to [contribute](#contribute) if you are reading this and you need support for a different shell.
 
