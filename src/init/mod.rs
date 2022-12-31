@@ -8,7 +8,7 @@ use std::process::Command;
 mod snap;
 use snap::check_in_snap;
 
-// Check that the .bcd data file exists and the shell init script is setup
+// Check that the .bcd data file exists and the shell startup script is setup
 pub(crate) fn check_bookmarks_file() -> bool {
     let mut bookmarks_file = home_dir().unwrap();
     bookmarks_file.push(".bcd");
@@ -101,12 +101,7 @@ fn setup_init_file(interactive: bool, init_file: PathBuf, eval: String) -> bool 
                 writeln!(file).unwrap();
                 writeln!(file, "# bookmark-cd init block").unwrap();
                 writeln!(file, "{}", eval).unwrap();
-                writeln!(file).unwrap();
-                if interactive {
-                    println!(
-                        "Your shell init script has been set up, restart your shell and type `bcd`"
-                    );
-                }
+                println!("\nYour shell startup script has been modified, restart your shell and type `bcd`\n");
                 true
             }
             Err(_) => {
@@ -116,7 +111,7 @@ fn setup_init_file(interactive: bool, init_file: PathBuf, eval: String) -> bool 
         }
     } else if interactive {
         println!(
-            "Shell init script [{}] not found",
+            "Shell startup script [{}] not found",
             init_file.to_str().unwrap()
         );
         false

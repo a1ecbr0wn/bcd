@@ -24,7 +24,7 @@ fn main() {
         }
     } else {
         if args.contains(&("init".to_string())) {
-            // Not called directly, but called by the shell function `bcd` set up in the shell init script
+            // Not called directly, but called by the shell function `bcd` set up in the shell startup script
             init::initialise_shell_script();
             exit(0);
         }
@@ -39,7 +39,7 @@ fn main() {
         };
 
         if options.install {
-            // a way to try to set up the shell init script when the data file exists but the `bcd` function is not.
+            // a way to try to set up the shell  when the data file exists but the `bcd` function is not.
             if init::setup_shell(true) {
                 exit(0);
             } else {
