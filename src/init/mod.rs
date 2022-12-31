@@ -1,6 +1,6 @@
 use home::home_dir;
 use std::fs::{File, OpenOptions};
-use std::io::prelude::*;
+use std::io::{stdout, prelude::*};
 use std::path::PathBuf;
 use std::process::exit;
 use std::process::Command;
@@ -49,7 +49,8 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                     instructions_shell_script(shell.init, shell.eval);
                     false
                 } else {
-                    println!("Do you want to set this up now? [Y/n]");
+                    print!("Do you want to set this up now? [Y/n] ");
+                    let _=stdout().flush();
                     let mut reply = String::new();
                     let _b = std::io::stdin().read_line(&mut reply).unwrap();
                     reply = reply.trim().to_string();
