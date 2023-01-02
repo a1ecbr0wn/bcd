@@ -7,7 +7,7 @@
 
 `bcd` is a way to `cd` to directories that have been bookmarked.
 
-[![asciicast](https://asciinema.org/a/549018.svg)](https://asciinema.org/a/549018)
+<script id="asciicast-549018" src="https://asciinema.org/a/549018.js" async></script>
 
 ## How to use: create a bookmark
 
