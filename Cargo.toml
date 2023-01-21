@@ -21,14 +21,16 @@ name = "bookmark-cd"
 lazy_static = "1.4.0"
 clap = { version = "4.0", features = ["derive"] }
 csv = "1.1.6"
-home = "0.5"
+home = "0.5.4"
 tabled = "0.10.0"
 sysinfo = "0.27"
 pshell = "1.0.8"
+snapcraft = "0.1.0"
 
 [build-dependencies]
 clap = { version = "4.0", features = ["derive"] }
 clap_complete = "4.0"
 clap_complete_fig = "4.0"
-home = "0.5.3"
-pshell = "1.0.7"
+home = "0.5.4"
+pshell = "1.0.8"
+snapcraft = "0.1.0"

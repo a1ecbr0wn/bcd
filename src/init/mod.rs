@@ -4,9 +4,7 @@ use std::io::{prelude::*, stdout};
 use std::path::PathBuf;
 use std::process::exit;
 use std::process::Command;
-
-mod snap;
-use snap::check_in_snap;
+use snapcraft::check_snap_home;
 
 // Check that the .bcd data file exists and the shell startup script is setup
 pub(crate) fn check_bookmarks_file() -> bool {
@@ -142,7 +140,7 @@ struct ShellSetup {
 
 impl ShellSetup {
     fn new() -> ShellSetup {
-        let (is_in_snap, home_override) = check_in_snap();
+        let (is_in_snap, home_override) = check_snap_home();
         let (shell_name, _pid) = pshell::find().unwrap_or(("unknown".to_string(), 0));
         let mut shell_init = if let Some(home_override_path) = home_override {
             if home_override_path.is_dir() {
