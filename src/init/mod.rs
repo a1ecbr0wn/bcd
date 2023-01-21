@@ -1,10 +1,10 @@
 use home::home_dir;
+use snapcraft::check_snap_home;
 use std::fs::{File, OpenOptions};
 use std::io::{prelude::*, stdout};
 use std::path::PathBuf;
 use std::process::exit;
 use std::process::Command;
-use snapcraft::check_snap_home;
 
 // Check that the .bcd data file exists and the shell startup script is setup
 pub(crate) fn check_bookmarks_file() -> bool {
