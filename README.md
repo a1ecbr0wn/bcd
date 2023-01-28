@@ -13,18 +13,18 @@
 
 ``` sh
 # create a bookmark to the logs directory
-cd /var/log
-bcd -s logs
+$ cd /var/log
+$ bcd -s logs
 
 # move to home
-cd ~
+$ cd ~
 
 # list the bookmarks
-bcd -l
+$ bcd -l
 
 # change to the bookmarked directory
-bcd logs
-pwd
+$ bcd logs
+$ pwd
 ```
 
 ## Installation
