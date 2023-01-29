@@ -1,6 +1,6 @@
 [package]
 name = "bookmark-cd"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 authors = ["Alec Brown <alec@noser.net>"]
 description = "Bookmark directories and move to them"
