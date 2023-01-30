@@ -10,6 +10,7 @@ use std::process::Command;
 pub(crate) fn check_bookmarks_file(home: PathBuf) -> bool {
     let mut bookmarks_file = home;
     bookmarks_file.push(".bcd");
+    println!("bookmarks-file: {}", bookmarks_file.display());
     bookmarks_file.exists()
 }
 
