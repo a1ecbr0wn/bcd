@@ -1,5 +1,5 @@
 use home::home_dir;
-use snapcraft::check_snap_home;
+use snapcraft::{check_snap_home, snap_real_home};
 use std::fs::{File, OpenOptions};
 use std::io::{prelude::*, stdout};
 use std::path::PathBuf;
@@ -7,15 +7,26 @@ use std::process::exit;
 use std::process::Command;
 
 // Check that the .bcd data file exists and the shell startup script is setup
-pub(crate) fn check_bookmarks_file() -> bool {
-    let mut bookmarks_file = home_dir().unwrap();
+pub(crate) fn check_bookmarks_file(home: PathBuf) -> bool {
+    let mut bookmarks_file = home;
     bookmarks_file.push(".bcd");
     bookmarks_file.exists()
 }
 
 // Attempt to setup your shell, can be run in interactive mode or not, and exits the process if cancelled unexpectedly.
 pub(crate) fn setup_shell(interactive: bool) -> bool {
-    let bookmarks_file_exists = check_bookmarks_file();
+    let shell = ShellSetup::new();
+
+    let home = if shell.is_in_snap {
+        if let Some(home) = snap_real_home() {
+            home
+        } else {
+            home_dir().unwrap()
+        }
+    } else {
+        home_dir().unwrap()
+    };
+    let bookmarks_file_exists = check_bookmarks_file(home);
     if !bookmarks_file_exists {
         let mut bookmarks_file = home_dir().unwrap();
         bookmarks_file.push(".bcd");
@@ -23,8 +34,6 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
             let _ = File::create(bookmarks_file);
         }
     }
-
-    let shell = ShellSetup::new();
 
     if !shell.init_setup {
         if interactive {
