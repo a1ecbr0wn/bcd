@@ -1,5 +1,5 @@
 use home::home_dir;
-use snapcraft::{check_snap_home, snap_real_home};
+use snapcraft::{check_snap_home, snap_data};
 use std::fs::{File, OpenOptions};
 use std::io::{prelude::*, stdout};
 use std::path::PathBuf;
@@ -19,7 +19,7 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
     let shell = ShellSetup::new();
 
     let home = if shell.is_in_snap {
-        if let Some(home) = snap_real_home() {
+        if let Some(home) = snap_data() {
             home
         } else {
             home_dir().unwrap()
