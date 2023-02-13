@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 32 32" >
+ 
+  <!-- background -->
+  <defs>
+      <linearGradient id="background-gradient" gradientTransform="rotate(45)">
+          <stop offset="1%" stop-color="#acf085"/>
+          <stop offset="99%" stop-color="#265707"/>
+      </linearGradient>
+  </defs>
+  <rect id="background" x="0" y="0" width="100%" height="100%" rx="20%" ry="20%" fill="url(#background-gradient)"/>
+  <path d="M23 25 l-7-5-7 5 V10 a2 2 0 0 1 2-2 h10 a2 2 0 0 1 2 2z"
+    fill="none" 
+    stroke="#d2f3a3"
+    stroke-width="2"
+    stroke-linecap="round" 
+    stroke-linejoin="round"
+    class="feather feather-bookmark"/>
+</svg>

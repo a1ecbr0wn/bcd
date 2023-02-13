@@ -98,7 +98,7 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
 fn instructions_shell_script(init_file: PathBuf, eval: String) {
     println!("To complete setup, please edit your [{}] file and insert the following to the end of the file:\n", init_file.to_str().unwrap());
     println!("    # bookmark-cd init block");
-    println!("    {}", eval);
+    println!("    {eval}");
 }
 
 fn setup_init_file(interactive: bool, init_file: PathBuf, eval: String) -> bool {
@@ -108,7 +108,7 @@ fn setup_init_file(interactive: bool, init_file: PathBuf, eval: String) -> bool 
             Ok(mut file) => {
                 writeln!(file).unwrap();
                 writeln!(file, "# bookmark-cd init block").unwrap();
-                writeln!(file, "{}", eval).unwrap();
+                writeln!(file, "{eval}").unwrap();
                 println!("\nYour shell startup script has been modified, restart your shell and type `bcd`\n");
                 true
             }

@@ -146,7 +146,7 @@ fn main() {
         if let Some(key) = options.bookmark {
             match bookmarks_cache.get(key.as_str()) {
                 Some(path) => {
-                    println!("cd {}", path);
+                    println!("cd {path}");
                 }
                 _ => {
                     println!("Bookmark not found, use `--list` to see the list of bookmarks");
