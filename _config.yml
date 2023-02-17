@@ -2,9 +2,11 @@
 title: bcd
 description: Bookmark Change Directory
 
-# Using Midnight theme: https://github.com/pages-themes/midnight
-remote_theme: pages-themes/midnight@v0.2.0
+# Using Just The Docs theme: https://github.com/just-the-docs/just-the-docs
+remote_theme: just-the-docs/just-the-docs
 plugins:
 - jekyll-remote-theme
+
+footer_content: "a1ecbr0wn <a href=\"https://github.com/a1ecbr0wn/bcd/blob/main/LICENSE\">Apache-2 license.</a>"
 
 google_analytics: G-K1B7GJ3M5N
