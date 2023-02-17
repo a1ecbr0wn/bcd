@@ -5,7 +5,8 @@ description: Bookmark Change Directory
 # Using Just The Docs theme: https://github.com/just-the-docs/just-the-docs
 remote_theme: just-the-docs/just-the-docs
 plugins:
-- jekyll-remote-theme
+  - jekyll-remote-theme
+  - jekyll-default-layout
 
 footer_content: "a1ecbr0wn <a href=\"https://github.com/a1ecbr0wn/bcd/blob/main/LICENSE\">Apache-2 license.</a>"
 
