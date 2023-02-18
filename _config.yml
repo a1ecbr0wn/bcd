@@ -1,5 +1,5 @@
 # Site
-title: bcd
+title: bookmark-cd | bcd
 description: Bookmark Change Directory
 
 # Using Just The Docs theme: https://github.com/just-the-docs/just-the-docs
@@ -17,3 +17,7 @@ favicon_ico: "/img/favicon-32.png"
 search_enabled: false
 
 color_scheme: dark
+
+aux_links:
+  "bcd on GitHub":
+    - "//github.com/a1ecbr0wn/bcd"
