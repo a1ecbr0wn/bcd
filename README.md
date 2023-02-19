@@ -1,6 +1,6 @@
 ---
 layout: default
-toc: true
+toc: false
 ---
 <!-- markdownlint-configure-file {
   "MD033": false,
