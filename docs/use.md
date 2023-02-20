@@ -1,7 +1,6 @@
 ---
 layout: default
 nav_order: 1
-parent: Home
 ---
 
 # How to use: create a bookmark
