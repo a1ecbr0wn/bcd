@@ -1,6 +1,7 @@
 ---
 layout: default
 nav_order: 5
+parent: Installation
 ---
 
 # Installation issues - Setup your environment

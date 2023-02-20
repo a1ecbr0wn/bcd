@@ -1,3 +1,6 @@
+---
+permalink: /
+---
 <!-- markdownlint-configure-file {
   "MD033": false,
   "MD041": false
@@ -26,15 +29,6 @@ $ bcd -l
 $ bcd logs
 $ pwd
 ```
-
-## Installation
-
-- [Homebrew](install-homebrew.md)
-- [Snap](install-snapcraft.md)
-- [Cargo](install-cargo.md)
-- [Other Package Managers](install-other.md)
-
-[Installation Issues](install-issues.md)
 
 ## Contribute
 
