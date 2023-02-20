@@ -12,7 +12,7 @@ google_analytics: G-K1B7GJ3M5N
 
 favicon_ico: "/img/favicon-32.png"
 color_scheme: dark
-footer_content: "<a href=\"https://a1ecbr0wn.com\">a1ecbr0wn</a> | [![Crates.io](https://img.shields.io/crates/l/bookmark-cd)](https://github.com/a1ecbr0wn/bcd/blob/main/LICENSE) | [![Crates.io](https://img.shields.io/crates/v/bookmark-cd)](https://crates.io/crates/bookmark-cd)"
+footer_content: "<a href=\"https://a1ecbr0wn.com\">a1ecbr0wn</a> | <img alt=\"Crates.io License\" src=\"https://img.shields.io/crates/l/bookmark-cd\"> | <a href=\"https://snapcraft.io/bookmark-cd\"><img alt=\"bookmark-cd\" src=\"https://snapcraft.io/bookmark-cd/badge.svg\" /></a>"
 aux_links:
   "<i class=\"fa-brands fa-2x fa-github\"></i>":
     - "https://github.com/a1ecbr0wn/bcd"
