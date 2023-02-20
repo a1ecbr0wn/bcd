@@ -1,5 +1,7 @@
 ---
+title: Home
 permalink: /
+has_children: true
 ---
 <!-- markdownlint-configure-file {
   "MD033": false,
@@ -11,28 +13,3 @@ permalink: /
 bbb `bcd` is a way to `cd` to directories that have been bookmarked.
 
 <script id="asciicast-549018" src="https://asciinema.org/a/549018.js" async></script>
-
-## How to use: create a bookmark
-
-``` sh
-# create a bookmark to the logs directory
-$ cd /var/log
-$ bcd -s logs
-
-# move to home
-$ cd ~
-
-# list the bookmarks
-$ bcd -l
-
-# change to the bookmarked directory
-$ bcd logs
-$ pwd
-```
-
-## Contribute
-
-There are many shell that this tool could be used on, I just don't use them.  I would be happy to take a look at any
-PRs that add support for other shells.
-
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/bookmark-cd)
