@@ -26,3 +26,17 @@ $ pwd
 # list the bookmarks
 $ bcd -l
 ```
+
+## Remove bookmarks
+
+``` sh
+# remove a bookmarks
+$ bcd -r logs
+```
+
+## Help
+
+``` sh
+# show the usage/help message
+$ bcd -h
+```
