@@ -12,7 +12,8 @@ google_analytics: G-K1B7GJ3M5N
 
 favicon_ico: "/img/favicon-32.png"
 color_scheme: dark
-footer_content: "<a href=\"https://a1ecbr0wn.com\">a1ecbr0wn</a> | <img alt=\"Crates.io License\" src=\"https://img.shields.io/crates/l/bookmark-cd\"> | <a href=\"https://snapcraft.io/bookmark-cd\"><img alt=\"bookmark-cd\" src=\"https://snapcraft.io/bookmark-cd/badge.svg\" /></a>"
+
+footer_content: "<a href=\"https://a1ecbr0wn.com\"><img alt=\"a1ecbr0wn\" src=\"https://img.shields.io/badge/a1ecbr0wn-home-green\"></a> | <img alt=\"Crates.io License\" src=\"https://img.shields.io/crates/l/bookmark-cd\"> | <a href=\"https://snapcraft.io/bookmark-cd\"><img alt=\"bookmark-cd\" src=\"https://snapcraft.io/bookmark-cd/badge.svg\" /></a>"
 aux_links:
   "<i class=\"fa-brands fa-2x fa-github\"></i>":
     - "https://github.com/a1ecbr0wn/bcd"
