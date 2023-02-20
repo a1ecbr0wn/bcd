@@ -3,7 +3,9 @@ layout: default
 nav_order: 2
 ---
 
-# How to use: create a bookmark
+# How to use
+
+## Create a bookmark
 
 ``` sh
 # create a bookmark to the logs directory
@@ -13,10 +15,14 @@ $ bcd -s logs
 # move to home
 $ cd ~
 
-# list the bookmarks
-$ bcd -l
-
 # change to the bookmarked directory
 $ bcd logs
 $ pwd
+```
+
+## List bookmarks
+
+``` sh
+# list the bookmarks
+$ bcd -l
 ```
