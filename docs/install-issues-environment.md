@@ -4,7 +4,7 @@ nav_order: 5
 parent: Installation
 ---
 
-# Installation issues - Setup your environment
+# Environment Setup
 
 After your installation, you need to restart your shell, your installation should have automatically set up the pointer to `bcd` in your shell startup script.  If the command `bcd` is not working after your installation or something else has happened to change your shell scripts, running `bookmark-cd` and then restarting your shell should set this correctly.
 
