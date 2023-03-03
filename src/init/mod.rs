@@ -40,9 +40,9 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
         if interactive {
             if shell.is_supported {
                 println!(
-                "\nIt looks like bookmark-cd (bcd) has not been set up to run in your shell `{}`.",
-                shell.name
-            );
+                    "\nIt looks like bookmark-cd (bcd) has not been set up to run in your shell `{}`.",
+                    shell.name
+                );
                 if shell.is_in_snap {
                     println!(
                     "This may be because you have installed bcd from snap, which prevents automatic setup.\n"
