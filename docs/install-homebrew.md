@@ -20,7 +20,7 @@ brew install bcd
 
 and then restart your shell.
 
-If you are using a shell other than `bash`, you will need to run the following command to ensure correct [environment setup](docs/install-issues-environment.md):
+If you are using a shell other than `bash`, you will need to run the following command to ensure correct [environment setup](install-issues-environment.md):
 
 ``` sh
 bookmark-cd -i
