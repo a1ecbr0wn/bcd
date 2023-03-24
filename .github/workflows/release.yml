@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: "Rust Toolchain setup"
         uses: actions-rs/toolchain@v1
@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: "Toolchain setup"
         uses: actions-rs/toolchain@v1
@@ -97,7 +97,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: "Toolchain setup"
         uses: actions-rs/toolchain@v1
@@ -144,7 +144,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: "Publish Application to crates.io"
         env:
@@ -161,7 +161,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         
       - name: "Download all release artifacts from the workflow"
         uses: actions/download-artifact@v3
