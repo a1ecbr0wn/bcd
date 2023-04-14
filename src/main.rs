@@ -6,7 +6,10 @@ use std::env;
 use std::path::Path;
 use std::process::exit;
 use std::{collections::BTreeMap, env::current_dir};
-use tabled::{builder::Builder, object::Segment, Alignment, Modify, Style};
+use tabled::{
+    builder::Builder, settings::object::Segment, settings::Alignment, settings::Modify,
+    settings::Style,
+};
 
 mod cli;
 mod init;
@@ -125,9 +128,9 @@ fn main() {
         if options.list {
             if !bookmarks_cache.is_empty() {
                 let mut builder = Builder::default();
-                builder.set_columns(["bookmark", "path"]);
+                builder.set_header(["bookmark", "path"]);
                 for bookmark in bookmarks_cache.clone() {
-                    builder.add_record([bookmark.0, bookmark.1]);
+                    builder.push_record([bookmark.0, bookmark.1]);
                 }
                 println!(
                     "{}",
