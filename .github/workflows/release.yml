@@ -49,19 +49,14 @@ jobs:
           toolchain: ${{ matrix.RUST }}
           target: ${{ matrix.TARGET }}
 
-      - name: "Test"
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: test
-          args: --target=${{ matrix.TARGET }}
+      - name: Cross setup
+        run: cargo install cross
 
-      - name: "Build release"
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: build
-          args: --release --target=${{ matrix.TARGET }}
+      - name: Test
+        run: cross test --target=${{ matrix.TARGET }}
+
+      - name: Build
+        run: cross build --release --target=${{ matrix.TARGET }}
 
       - name: "Package Release"
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
@@ -101,17 +96,14 @@ jobs:
           toolchain: ${{ matrix.RUST }}
           target: ${{ matrix.TARGET }}
 
-      - name: "Test"
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - name: Cross setup
+        run: cargo install cross
 
-      - name: "Build release"
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: build
-          args: --release --target=${{ matrix.TARGET }}
+      - name: Test
+        run: cross test --target=${{ matrix.TARGET }}
+
+      - name: Build
+        run: cross build --release --target=${{ matrix.TARGET }}
 
       - name: "Package Release"
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
@@ -143,9 +135,7 @@ jobs:
       - name: "Publish Application to crates.io"
         env:
           CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_TOKEN }}"
-        uses: actions-rs/cargo@v1
-        with:
-          command: publish
+        run: cargo publish
 
   # Package the artifacts as a release package
   tag-release-package:

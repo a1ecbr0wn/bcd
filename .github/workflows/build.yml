@@ -65,19 +65,14 @@ jobs:
           toolchain: ${{ matrix.RUST }}
           target: ${{ matrix.TARGET }}
 
-      - name: "Build"
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: build
-          args: --target=${{ matrix.TARGET }}
+      - name: Cross setup
+        run: cargo install cross
 
-      - name: "Test"
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: test
-          args: --target=${{ matrix.TARGET }}
+      - name: Build
+        run: cross build --target=${{ matrix.TARGET }}
+
+      - name: Test
+        run: cross test --target=${{ matrix.TARGET }}
 
   build-macos:
     name: "CI Build - Macos"
@@ -99,14 +94,11 @@ jobs:
           toolchain: ${{ matrix.RUST }}
           target: ${{ matrix.TARGET }}
 
-      - name: "Build"
-        uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: build
-          args: --target=${{ matrix.TARGET }}
+      - name: Cross setup
+        run: cargo install cross
 
-      - name: "Test"
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - name: Build
+        run: cross build --target=${{ matrix.TARGET }}
+
+      - name: Test
+        run: cross test --target=${{ matrix.TARGET }}
