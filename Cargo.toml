@@ -23,7 +23,7 @@ clap = { version = "4.1", features = ["derive"] }
 csv = "1.2"
 home = "0.5.4"
 tabled = "0.12.0"
-sysinfo = "0.28"
+sysinfo = "0.29"
 pshell = "1.0.9"
 snapcraft = "0.3.0"
 
