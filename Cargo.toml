@@ -1,6 +1,6 @@
 [package]
 name = "bookmark-cd"
-version = "1.0.5"
+version = "1.0.6"
 edition = "2021"
 authors = ["Alec Brown <alec@noser.net>"]
 description = "Bookmark directories and move to them"
@@ -24,7 +24,7 @@ csv = "1.2"
 home = "0.5.4"
 tabled = "0.12.0"
 sysinfo = "0.29"
-pshell = "1.0.9"
+pshell = "1.0.10"
 snapcraft = "0.3.0"
 
 [build-dependencies]
