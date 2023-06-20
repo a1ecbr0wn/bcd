@@ -1,0 +1,27 @@
+{
+    "name": "Rust",
+    "image": "mcr.microsoft.com/devcontainers/rust:1",
+
+    // "features": {},
+
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": [
+				"rust-lang.rust-analyzer",
+				"serayuzgur.crates",
+				"vadimcn.vscode-lldb",
+				"codezombiech.gitignore",
+				"github.vscode-github-actions"
+			]
+        }
+    },
+
+    // "forwardPorts": [],
+
+    "postCreateCommand": "rustc --version",
+
+    "hostRequirements": {
+        "cpus": 2
+    }
+}
