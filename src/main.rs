@@ -2,12 +2,7 @@ use clap::Parser;
 use csv::{Reader, Result, Writer};
 use home::home_dir;
 use std::{
-    collections::BTreeMap,
-    env,
-    env::current_dir,
-    path::Path,
-    process::exit,
-    sync::OnceLock,
+    collections::BTreeMap, env, env::current_dir, path::Path, process::exit, sync::OnceLock,
 };
 
 use tabled::{
