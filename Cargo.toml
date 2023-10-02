@@ -19,7 +19,7 @@ name = "bookmark-cd"
 
 [dependencies]
 lazy_static = "1.4.0"
-clap = { version = "4.3", features = ["derive"] }
+clap = { version = "4.4", features = ["derive"] }
 csv = "1.2"
 home = "0.5.5"
 tabled = "0.14.0"
@@ -28,9 +28,9 @@ pshell = "1.0.10"
 snapcraft = "0.3.0"
 
 [build-dependencies]
-clap = { version = "4.3", features = ["derive"] }
-clap_complete = "4.3"
-clap_complete_fig = "4.3"
+clap = { version = "4.4", features = ["derive"] }
+clap_complete = "4.4"
+clap_complete_fig = "4.4"
 home = "0.5.5"
 pshell = "1.0.10"
 snapcraft = "0.3.0"
