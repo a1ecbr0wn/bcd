@@ -1,11 +1,10 @@
 use clap::Parser;
 use csv::{Reader, Result, Writer};
 use home::home_dir;
-use lazy_static::lazy_static;
-use std::env;
-use std::path::Path;
-use std::process::exit;
-use std::{collections::BTreeMap, env::current_dir};
+use std::{
+    collections::BTreeMap, env, env::current_dir, path::Path, process::exit, sync::OnceLock,
+};
+
 use tabled::{
     builder::Builder, settings::object::Segment, settings::Alignment, settings::Modify,
     settings::Style,
@@ -34,12 +33,13 @@ fn main() {
 
         let options = cli::Options::parse();
 
-        lazy_static! {
-            static ref DESCRIPTION: String = format!(
+        static DESCRIPTION: OnceLock<String> = OnceLock::new();
+        DESCRIPTION.get_or_init(|| {
+            format!(
                 "bcd {}: bookmark directories and move to them.",
                 env!("CARGO_PKG_VERSION")
-            );
-        };
+            )
+        });
 
         if options.install {
             // a way to try to set up the shell  when the data file exists but the `bcd` function is not.
@@ -51,7 +51,7 @@ fn main() {
         }
 
         if options.version {
-            println!("{}", DESCRIPTION.as_str());
+            println!("{}", DESCRIPTION.get().unwrap().as_str());
             exit(0);
         }
 
@@ -158,7 +158,7 @@ fn main() {
             exit(0);
         }
 
-        println!("{}", DESCRIPTION.as_str());
+        println!("{}", DESCRIPTION.get().unwrap().as_str());
     }
 }
 
