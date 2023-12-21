@@ -128,7 +128,7 @@ fn main() {
         if options.list {
             if !bookmarks_cache.is_empty() {
                 let mut builder = Builder::default();
-                builder.set_header(["bookmark", "path"]);
+                builder.push_record(["bookmark", "path"]);
                 for bookmark in bookmarks_cache.clone() {
                     builder.push_record([bookmark.0, bookmark.1]);
                 }
