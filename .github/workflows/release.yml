@@ -1,5 +1,5 @@
 ---
-name: "Tag Release Build"
+name: Tag Release Build
 
 on:
   push:
@@ -10,26 +10,26 @@ on:
 jobs:
   # Check the rust formatting
   format:
-    name: "Rust Format Check"
+    name: Rust Format Check
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: "Rust Toolchain setup"
+      - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@stable
         with:
             components: rustfmt
 
-      - name: "Format Check"
+      - name: Format Check
         uses: mbrobbel/rustfmt-check@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   # Build the Linux release artifacts
   tag-release-build-linux:
-    name: "Tag Release Build - Linux"
-    runs-on: "ubuntu-latest"
+    name: Tag Release Build - Linux
+    runs-on: ubuntu-latest
     needs: format
     strategy:
       matrix:
@@ -40,10 +40,10 @@ jobs:
           - aarch64-unknown-linux-gnu
 
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: "Toolchain setup"
+      - name: Toolchain setup
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.RUST }}
@@ -58,16 +58,16 @@ jobs:
       - name: Build
         run: cross build --release --target=${{ matrix.TARGET }}
 
-      - name: "Package Release"
+      - name: Package Release
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
-      - name: "Generate SHA checksum"
+      - name: Generate SHA checksum
         run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
 
-      - name: "Generate MD5 checksum"
+      - name: Generate MD5 checksum
         run: md5sum --tag bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
 
-      - name: "Upload the artifact with the workflow run"
+      - name: Upload the artifact with the workflow run
         uses: actions/upload-artifact@v3
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
@@ -76,8 +76,8 @@ jobs:
 
   # Build the MacOS release artifacts
   tag-release-build-macos:
-    name: "Tag Release Build - MacOS"
-    runs-on: "macos-latest"
+    name: Tag Release Build - MacOS
+    runs-on: macos-latest
     needs: format
     strategy:
       matrix:
@@ -87,10 +87,10 @@ jobs:
           - aarch64-apple-darwin
 
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: "Toolchain setup"
+      - name: Toolchain setup
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: ${{ matrix.RUST }}
@@ -105,16 +105,16 @@ jobs:
       - name: Build
         run: cross build --release --target=${{ matrix.TARGET }}
 
-      - name: "Package Release"
+      - name: Package Release
         run: tar cvzf bcd-${{ matrix.TARGET }}.tar.gz --directory=target/${{ matrix.TARGET }}/release bookmark-cd
 
-      - name: "Generate SHA checksum"
+      - name: Generate SHA checksum
         run: shasum -a 256 -U bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.sha
 
-      - name: "Generate MD5 checksum"
+      - name: Generate MD5 checksum
         run: md5 bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
 
-      - name: "Upload the artifact with the workflow run"
+      - name: Upload the artifact with the workflow run
         uses: actions/upload-artifact@v3
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
@@ -123,51 +123,50 @@ jobs:
 
   # Publishing to crates.io - this will be skipped if the tag as a '-' in it for testing purposes
   tag-release-publish:
-    name: "Tag Release Publish"
-    runs-on: "ubuntu-latest"
+    name: Tag Release Publish
+    runs-on: ubuntu-latest
     needs: [tag-release-build-linux, tag-release-build-macos]
     if: github.ref_type == 'tag' && ( contains(github.ref_name, '-') == false ) 
 
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: "Publish Application to crates.io"
+      - name: Publish Application to crates.io
         env:
           CARGO_REGISTRY_TOKEN: "${{ secrets.CRATES_TOKEN }}"
         run: cargo publish
 
   # Package the artifacts as a release package
   tag-release-package:
-    name: "Tag Release Package"
-    runs-on: "ubuntu-latest"
+    name: Tag Release Package
+    runs-on: ubuntu-latest
     needs: [tag-release-build-linux, tag-release-build-macos]
 
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v3
         
-      - name: "Download all release artifacts from the workflow"
+      - name: Download all release artifacts from the workflow
         uses: actions/download-artifact@v3
 
-      - name: "Create CLI Release"
-        uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Create CLI Release
+        uses: softprops/action-gh-release@v1
         with:
-          automatic_release_tag: "${{ github.ref_name }}"
-          title: "Release ${{ github.ref_name }}"
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
+          tag_name: "${{ github.ref_name }}"
+          name: "Release ${{ github.ref_name }}"
+          token: "${{ secrets.GITHUB_TOKEN }}"
           files: |
             LICENSE
             **/bcd-*.*
 
   # Kick off the workflow in the tap repo (a1ecbr0wn/homebrew-bcd) that will generate the homebrew formula 
   generate-formula:
-    name: "Initiate the generation of homebrew formula"
+    name: Initiate the generation of homebrew formula
     runs-on: ubuntu-latest
     needs: [tag-release-build-linux, tag-release-build-macos]
     steps:
-      - name: "Repository Dispatch"
+      - name: Repository Dispatch
         uses: benc-uk/workflow-dispatch@v1
         with:
           token: ${{ secrets.PAT }}
@@ -178,11 +177,11 @@ jobs:
 
   # Kick off the workflow in the snap repo (a1ecbr0wn/snapcraft-bcd) that will generate the snapcraft yaml file 
   generate-snap:
-    name: "Initiate the generation of the snapcraft yaml file"
+    name: Initiate the generation of the snapcraft yaml file
     runs-on: ubuntu-latest
     needs: [tag-release-build-linux, tag-release-build-macos]
     steps:
-      - name: "Repository Dispatch"
+      - name: Repository Dispatch
         uses: benc-uk/workflow-dispatch@v1
         with:
           token: ${{ secrets.PAT }}
