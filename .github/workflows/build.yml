@@ -27,24 +27,24 @@ env:
 
 jobs:
   format:
-    name: "Rust Format Check"
+    name: Rust Format Check
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: "Rust Toolchain setup"
+      - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
 
-      - name: "Format Check"
+      - name: Format Check
         uses: mbrobbel/rustfmt-check@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   build-linux:
-    name: "CI Build - Linux"
+    name: CI Build - Linux
     runs-on: ubuntu-latest
     needs: format
     strategy:
@@ -56,10 +56,10 @@ jobs:
           - aarch64-unknown-linux-gnu
 
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
       
-      - name: "Rust Toolchain setup"
+      - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.RUST }}
@@ -75,7 +75,7 @@ jobs:
         run: cross test --target=${{ matrix.TARGET }}
 
   build-macos:
-    name: "CI Build - Macos"
+    name: CI Build - Macos
     runs-on: macos-latest
     needs: format
     strategy:
@@ -85,10 +85,10 @@ jobs:
           - x86_64-apple-darwin
           - aarch64-apple-darwin
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
       
-      - name: "Rust Toolchain setup"
+      - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.RUST }}

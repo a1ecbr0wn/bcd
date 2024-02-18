@@ -1,5 +1,5 @@
 ---
-name: Tag Release Build
+name: Release Binaries on Tag
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@stable
@@ -28,7 +28,7 @@ jobs:
 
   # Build the Linux release artifacts
   tag-release-build-linux:
-    name: Tag Release Build - Linux
+    name: Build tag as a release - Linux
     runs-on: ubuntu-latest
     needs: format
     strategy:
@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Toolchain setup
         uses: dtolnay/rust-toolchain@master
@@ -76,7 +76,7 @@ jobs:
 
   # Build the MacOS release artifacts
   tag-release-build-macos:
-    name: Tag Release Build - MacOS
+    name: Build tag as a release - MacOS
     runs-on: macos-latest
     needs: format
     strategy:
@@ -88,7 +88,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Toolchain setup
         uses: dtolnay/rust-toolchain@stable
@@ -123,14 +123,14 @@ jobs:
 
   # Publishing to crates.io - this will be skipped if the tag as a '-' in it for testing purposes
   tag-release-publish:
-    name: Tag Release Publish
+    name: Publish tag as a release
     runs-on: ubuntu-latest
     needs: [tag-release-build-linux, tag-release-build-macos]
     if: github.ref_type == 'tag' && ( contains(github.ref_name, '-') == false ) 
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Publish Application to crates.io
         env:
@@ -139,13 +139,13 @@ jobs:
 
   # Package the artifacts as a release package
   tag-release-package:
-    name: Tag Release Package
+    name: Package tag as a release
     runs-on: ubuntu-latest
     needs: [tag-release-build-linux, tag-release-build-macos]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
       - name: Download all release artifacts from the workflow
         uses: actions/download-artifact@v3
