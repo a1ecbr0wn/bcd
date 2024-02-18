@@ -103,7 +103,7 @@ fn instructions_shell_script(init_file: PathBuf, eval: String) {
 
 fn setup_init_file(interactive: bool, init_file: PathBuf, eval: String) -> bool {
     if init_file.exists() {
-        let res = OpenOptions::new().write(true).append(true).open(init_file);
+        let res = OpenOptions::new().append(true).open(init_file);
         match res {
             Ok(mut file) => {
                 writeln!(file).unwrap();
