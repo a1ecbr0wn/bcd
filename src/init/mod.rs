@@ -62,8 +62,8 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                     let mut reply = String::new();
                     let _b = std::io::stdin().read_line(&mut reply).unwrap();
                     reply = reply.trim().to_string();
-                    if reply.to_ascii_lowercase() == "y"
-                        || reply.to_ascii_lowercase() == "yes"
+                    if reply.eq_ignore_ascii_case("y")
+                        || reply.eq_ignore_ascii_case("yes")
                         || reply.is_empty()
                     {
                         if shell.init.is_dir() {
