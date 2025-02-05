@@ -68,7 +68,7 @@ jobs:
         run: md5sum --tag bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
 
       - name: Upload the artifact with the workflow run
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
           path: bcd-${{ matrix.TARGET }}.*
@@ -115,7 +115,7 @@ jobs:
         run: md5 bcd-${{ matrix.TARGET }}.tar.gz > bcd-${{ matrix.TARGET }}.md5
 
       - name: Upload the artifact with the workflow run
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bcd-${{ matrix.TARGET }}-${{ github.ref_name }}
           path: bcd-${{ matrix.TARGET }}.*
@@ -148,7 +148,7 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Download all release artifacts from the workflow
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Create CLI Release
         uses: softprops/action-gh-release@v1
