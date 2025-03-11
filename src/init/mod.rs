@@ -1,7 +1,8 @@
 use home::home_dir;
 use snapcraft::{check_snap_home, snap_data};
-use std::fs::{File, OpenOptions};
-use std::io::{prelude::*, stdout};
+// use std::env;
+use std::fs::{create_dir_all, File, OpenOptions};
+use std::io::{prelude::*, stdout, ErrorKind};
 use std::path::PathBuf;
 use std::process::exit;
 use std::process::Command;
@@ -45,8 +46,8 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                 );
                 if shell.is_in_snap {
                     println!(
-                    "This may be because you have installed bcd from snap, which prevents automatic setup.\n"
-                );
+                        "This may be because you have installed bcd from snap, which prevents automatic setup.\n"
+                    );
                     if !shell.is_snap_connected {
                         println!("The snap container initially blocks access to shell init files that are needed to be checked for setup.  The following command can be run to unblock access to the required file and then try again:\n");
                         println!(
@@ -81,16 +82,24 @@ pub(crate) fn setup_shell(interactive: bool) -> bool {
                     }
                 }
             } else {
-                println!(
-                    "Your shell `{}` is not currently supported",
-                    shell.name.as_str()
-                );
+                if shell.name.as_str() == "unknown" {
+                    println!("\nNo shell detected. Your environment is not currently supported.");
+                } else {
+                    println!(
+                        "\nYour shell `{}` is not currently supported.",
+                        shell.name.as_str()
+                    );
+                }
                 false
             }
         } else {
             setup_init_file(interactive, shell.init, shell.eval)
         }
     } else {
+        println!(
+            "\nIt looks like bookmark-cd (bcd) has already been set up to run in your shell `{}`.",
+            shell.name
+        );
         true
     }
 }
@@ -101,30 +110,43 @@ fn instructions_shell_script(init_file: PathBuf, eval: String) {
     println!("    {eval}");
 }
 
-fn setup_init_file(interactive: bool, init_file: PathBuf, eval: String) -> bool {
-    if init_file.exists() {
-        let res = OpenOptions::new().append(true).open(init_file);
-        match res {
-            Ok(mut file) => {
-                writeln!(file).unwrap();
-                writeln!(file, "# bookmark-cd init block").unwrap();
-                writeln!(file, "{eval}").unwrap();
-                println!("\nYour shell startup script has been modified, restart your shell and type `bcd`\n");
-                true
-            }
-            Err(_) => {
-                println!("Please run `bookmark-cd -i` to setup");
-                false
+fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool {
+    // First, ensure the parent directory exists
+    if let Some(parent) = init_file.parent() {
+        match create_dir_all(parent) {
+            Ok(_) => (),
+            Err(error) => {
+                println!("Failed to create directory structure: {error}");
+                return false;
             }
         }
-    } else if interactive {
-        println!(
-            "Shell startup script [{}] not found",
-            init_file.to_str().unwrap()
-        );
-        false
-    } else {
-        false
+    }
+    // Next, open the file for appending or create if it does not exist.
+    let res = OpenOptions::new()
+        .append(true)
+        .create(true)
+        .open(init_file.clone());
+    match res {
+        Ok(mut file) => {
+            writeln!(file).unwrap();
+            writeln!(file, "# bookmark-cd init block").unwrap();
+            writeln!(file, "{eval}").unwrap();
+            println!("\nYour shell startup script has been modified, restart your shell and type `bcd`\n");
+            true
+        }
+        Err(x) => match x.kind() {
+            ErrorKind::PermissionDenied => {
+                println!(
+                    "Shell startup script [{}] could not be created due to invalid permissions",
+                    init_file.to_str().unwrap()
+                );
+                false
+            }
+            _ => {
+                println!("Please run `bookmark-cd -i` to setup {x}");
+                false
+            }
+        },
     }
 }
 
@@ -198,6 +220,19 @@ impl ShellSetup {
                 shell_init.push(".zshrc");
                 if is_in_snap {
                     snap_connector = "dot-zshrc".to_string();
+                }
+                true
+            }
+            "pwsh" => {
+                eval = r#"bookmark-cd init | Out-String | Invoke-Expression"#.to_string();
+                init_cmd = include_str!("cmd_pwsh.ps1").to_string();
+                let profile_output = Command::new("pwsh")
+                    .args(["-NoProfile", "-Command", "echo", "$PROFILE"])
+                    .output()
+                    .expect("Failed to execute powershell");
+
+                if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
+                    shell_init.push(profile_path.trim());
                 }
                 true
             }
