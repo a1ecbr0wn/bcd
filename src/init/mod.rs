@@ -236,6 +236,19 @@ impl ShellSetup {
                 }
                 true
             }
+            "powershell" => {
+                eval = r#"bookmark-cd init | Out-String | Invoke-Expression"#.to_string();
+                init_cmd = include_str!("cmd_pwsh.ps1").to_string();
+                let profile_output = Command::new("powershell")
+                    .args(["-NoProfile", "-Command", "echo", "$PROFILE"])
+                    .output()
+                    .expect("Failed to execute powershell");
+
+                if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
+                    shell_init.push(profile_path.trim());
+                }
+                true
+            }
             _ => false,
         };
         let shell_init_exists = shell_init.exists();
