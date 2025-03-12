@@ -36,3 +36,12 @@ The following commmand should be set in your `.config/fish/config.fish`:
 # bookmark-cd init block
 bookmark-cd init | source
 ```
+
+## powershell
+
+The following should be set in your '$PROFILE':
+
+``` sh
+2 # bookmark-cd init block 
+bookmark-cd init | Out-String | Invoke-Expression
+```
