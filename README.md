@@ -44,7 +44,7 @@ Supports your favourite shell environment:
 - fish
 - ksh
 - zsh
-- Powershell (on Windows or MacOS)
+- PowerShell (on Windows or MacOS)
 
 ## Contribute
 
