@@ -36,6 +36,16 @@ $ pwd
 
 [Installation Issues](docs/install-issues-environment.md)
 
+## Shell Environments
+
+Supports your favourite shell environment:
+
+- bash
+- fish
+- ksh
+- zsh
+- PowerShell (on Windows or MacOS)
+
 ## Contribute
 
 There are many shell that this tool could be used on, I just don't use them.  I would be happy to take a look at any

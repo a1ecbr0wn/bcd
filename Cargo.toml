@@ -1,6 +1,6 @@
 [package]
 name = "bookmark-cd"
-version = "1.0.15"
+version = "1.0.16"
 edition = "2021"
 rust-version = "1.74"
 authors = ["Alec Brown <alec@noser.net>"]
@@ -28,7 +28,7 @@ snapcraft = "0.4.0"
 
 [build-dependencies]
 clap = { version = "=4.5.32", features = ["derive"] }
-clap_complete = "=4.5.46"
+clap_complete = "=4.5.47"
 clap_complete_fig = "4.5"
 home = "0.5.9"
 pshell = "1.0.12"
