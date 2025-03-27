@@ -1,8 +1,8 @@
-use clap::Parser;
+use clap::{CommandFactory, Parser};
 use csv::{Reader, Result, Writer};
 use home::home_dir;
 use std::{
-    collections::BTreeMap, env, env::current_dir, path::Path, process::exit, sync::OnceLock,
+    collections::BTreeMap, env, env::current_dir, io, path::Path, process::exit, sync::OnceLock,
 };
 
 use tabled::{
@@ -48,6 +48,26 @@ fn main() {
             } else {
                 exit(1);
             }
+        }
+        match &options.sub_command {
+            Some(cli::SubCommands::Completions { shell }) => {
+                let generator = match shell {
+                    cli::Shells::Bash => Some(clap_complete::Shell::Bash),
+                    cli::Shells::Zsh => Some(clap_complete::Shell::Zsh),
+                    cli::Shells::Fish => Some(clap_complete::Shell::Fish),
+                    cli::Shells::Powershell => Some(clap_complete::Shell::PowerShell),
+                };
+                if let Some(shell) = generator {
+                    clap_complete::generate(
+                        shell,
+                        &mut cli::Options::command(),
+                        "bcd",
+                        &mut io::stdout(),
+                    );
+                    exit(0);
+                }
+            }
+            None => {}
         }
 
         if options.version {
