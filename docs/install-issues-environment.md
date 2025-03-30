@@ -16,7 +16,8 @@ The following commmand should be set in your `~/.bashrc` or `~/.zshrc`:
 
 ``` sh
 # bookmark-cd init block
-eval "$(bookmark-cd init)"   
+eval "$(bookmark-cd init)"
+eval "$(bookmark-cd completions)"
 ```
 
 ## ksh
@@ -25,7 +26,8 @@ The following commmand should be set in your `~/.kshrc`:
 
 ``` sh
 # bookmark-cd init block
-bookmark-cd init > ~/.bcd_ksh && . ~/.bcd_ksh
+bookmark-cd init > ~/.bcd_ksh
+. ~/.bcd_ksh
 ```
 
 ## fish
@@ -35,6 +37,7 @@ The following commmand should be set in your `.config/fish/config.fish`:
 ``` sh
 # bookmark-cd init block
 bookmark-cd init | source
+bookmark-cd completions | source
 ```
 
 ## PowerShell
@@ -42,6 +45,7 @@ bookmark-cd init | source
 The following should be set in your '$PROFILE':
 
 ``` sh
-# bookmark-cd init block 
+# bookmark-cd init block
 bookmark-cd init | Out-String | Invoke-Expression
+bookmark-cd completions | Out-String | Invoke-Expression
 ```

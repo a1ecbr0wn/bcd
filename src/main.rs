@@ -1,8 +1,12 @@
+mod cli;
+mod init;
+
+use crate::init::{initialise_completions_script, initialise_shell_script};
 use clap::{CommandFactory, Parser};
 use csv::{Reader, Result, Writer};
 use home::home_dir;
 use std::{
-    collections::BTreeMap, env, env::current_dir, io, path::Path, process::exit, sync::OnceLock,
+    collections::BTreeMap, env, env::current_dir, path::Path, process::exit, sync::OnceLock,
 };
 
 use tabled::{
@@ -10,11 +14,10 @@ use tabled::{
     settings::Style,
 };
 
-mod cli;
-mod init;
-
 fn main() {
     let args: Vec<String> = env::args().collect();
+
+    let options = cli::Options::parse();
 
     if args.len() < 2 {
         // If you are running this for the first time, set up your shell
@@ -25,13 +28,17 @@ fn main() {
             exit(1);
         }
     } else {
-        if args.contains(&("init".to_string())) {
-            // Not called directly, but called by the shell function `bcd` set up in the shell startup script
-            init::initialise_shell_script();
-            exit(0);
+        match &options.sub_command {
+            Some(cli::SubCommands::Init) => {
+                initialise_shell_script();
+                exit(0);
+            }
+            Some(cli::SubCommands::Completions) => {
+                initialise_completions_script(&mut cli::Options::command());
+                exit(0);
+            }
+            None => {}
         }
-
-        let options = cli::Options::parse();
 
         static DESCRIPTION: OnceLock<String> = OnceLock::new();
         DESCRIPTION.get_or_init(|| {
@@ -48,26 +55,6 @@ fn main() {
             } else {
                 exit(1);
             }
-        }
-        match &options.sub_command {
-            Some(cli::SubCommands::Completions { shell }) => {
-                let generator = match shell {
-                    cli::Shells::Bash => Some(clap_complete::Shell::Bash),
-                    cli::Shells::Zsh => Some(clap_complete::Shell::Zsh),
-                    cli::Shells::Fish => Some(clap_complete::Shell::Fish),
-                    cli::Shells::Powershell => Some(clap_complete::Shell::PowerShell),
-                };
-                if let Some(shell) = generator {
-                    clap_complete::generate(
-                        shell,
-                        &mut cli::Options::command(),
-                        "bcd",
-                        &mut io::stdout(),
-                    );
-                    exit(0);
-                }
-            }
-            None => {}
         }
 
         if options.version {

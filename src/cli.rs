@@ -36,17 +36,11 @@ pub struct Options {
 
 #[derive(Subcommand)]
 pub enum SubCommands {
-    /// Shell completions setup
-    Completions {
-        /// Creates a shell completions file for the specified shell
-        shell: Shells,
-    },
-}
+    /// Initialise the shell environment
+    #[command(hide(true))]
+    Init,
 
-#[derive(clap::ValueEnum, Clone)]
-pub enum Shells {
-    Bash,
-    Fish,
-    Zsh,
-    Powershell,
+    /// Shell completions setup
+    #[command(hide(true))]
+    Completions,
 }
