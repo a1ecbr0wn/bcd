@@ -1,14 +1,14 @@
 use home::home_dir;
 use snapcraft::{check_snap_home, snap_data};
-// use std::env;
-use std::fs::{create_dir_all, File, OpenOptions};
-use std::io::{prelude::*, stdout, ErrorKind};
-use std::path::PathBuf;
-use std::process::exit;
-use std::process::Command;
+use std::{
+    fs::{create_dir_all, File, OpenOptions},
+    io::{prelude::*, stdout, ErrorKind},
+    path::PathBuf,
+    process::{exit, Command},
+};
 
 // Check that the .bcd data file exists and the shell startup script is setup
-pub(crate) fn check_bookmarks_file(home: PathBuf) -> bool {
+pub fn check_bookmarks_file(home: PathBuf) -> bool {
     let mut bookmarks_file = home;
     bookmarks_file.push(".bcd");
     println!("bookmarks-file: {}", bookmarks_file.display());
@@ -16,7 +16,7 @@ pub(crate) fn check_bookmarks_file(home: PathBuf) -> bool {
 }
 
 // Attempt to setup your shell, can be run in interactive mode or not, and exits the process if cancelled unexpectedly.
-pub(crate) fn setup_shell(interactive: bool) -> bool {
+pub fn setup_shell(interactive: bool) -> bool {
     let shell = ShellSetup::new();
 
     let home = if shell.is_in_snap {
@@ -151,9 +151,28 @@ fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool
 }
 
 #[allow(dead_code)]
+pub fn initialise_completions_script(command: &mut clap::Command) {
+    let (shell_name, _pid) = pshell::find().unwrap_or(("unknown".to_string(), 0));
+    let generator = match shell_name.as_str() {
+        "bash" => Some(clap_complete::Shell::Bash),
+        "zsh" => {
+            println!("autoload -Uz compinit && compinit");
+            Some(clap_complete::Shell::Zsh)
+        }
+        "fish" => Some(clap_complete::Shell::Fish),
+        "pwsh" => Some(clap_complete::Shell::PowerShell),
+        "powershell" => Some(clap_complete::Shell::PowerShell),
+        _ => None,
+    };
+    if let Some(shell) = generator {
+        clap_complete::generate(shell, command, "bcd", &mut stdout());
+    }
+}
+
+#[allow(dead_code)]
 /// Outputs the shell script code for the function that will call this program, this should be used by an exec command
 /// during shell initialisation, e.g. in .bashrc
-pub(crate) fn initialise_shell_script() {
+pub fn initialise_shell_script() {
     let shell = ShellSetup::new();
     println!("{}", shell.init_cmd);
 }
@@ -188,7 +207,8 @@ impl ShellSetup {
         let mut init_cmd: String = String::new();
         let is_supported = match shell_name.as_str() {
             "bash" => {
-                eval = "eval \"$(bookmark-cd init)\"".to_string();
+                eval =
+                    "eval \"$(bookmark-cd init)\"\neval \"$(bookmark-cd completions)\"".to_string();
                 init_cmd = include_str!("cmd_bash.sh").to_string();
                 shell_init.push(".bashrc");
                 if is_in_snap {
@@ -197,7 +217,7 @@ impl ShellSetup {
                 true
             }
             "fish" => {
-                eval = "bookmark-cd init | source".to_string();
+                eval = "bookmark-cd init | source\nbookmark-cd completions | source".to_string();
                 init_cmd = include_str!("cmd_fish.sh").to_string();
                 shell_init.push(".config/fish/config.fish");
                 if is_in_snap {
@@ -206,7 +226,7 @@ impl ShellSetup {
                 true
             }
             "ksh" => {
-                eval = "bookmark-cd init > ~/.bcd_ksh && . ~/.bcd_ksh".to_string();
+                eval = "bookmark-cd init > ~/.bcd_ksh\n. ~/.bcd_ksh".to_string();
                 init_cmd = include_str!("cmd_ksh.sh").to_string();
                 shell_init.push(".kshrc");
                 if is_in_snap {
@@ -215,7 +235,8 @@ impl ShellSetup {
                 true
             }
             "zsh" => {
-                eval = "eval \"$(bookmark-cd init)\"".to_string();
+                eval =
+                    "eval \"$(bookmark-cd init)\"\neval \"$(bookmark-cd completions)\"".to_string();
                 init_cmd = include_str!("cmd_bash.sh").to_string();
                 shell_init.push(".zshrc");
                 if is_in_snap {
@@ -224,20 +245,19 @@ impl ShellSetup {
                 true
             }
             "pwsh" => {
-                eval = r#"bookmark-cd init | Out-String | Invoke-Expression"#.to_string();
+                eval = "bookmark-cd init | Out-String | Invoke-Expression\nbookmark-cd completions | Out-String | Invoke-Expression".to_string();
                 init_cmd = include_str!("cmd_pwsh.ps1").to_string();
                 let profile_output = Command::new("pwsh")
                     .args(["-NoProfile", "-Command", "echo", "$PROFILE"])
                     .output()
                     .expect("Failed to execute powershell");
-
                 if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
                     shell_init.push(profile_path.trim());
                 }
                 true
             }
             "powershell" => {
-                eval = r#"bookmark-cd init | Out-String | Invoke-Expression"#.to_string();
+                eval = "bookmark-cd init | Out-String | Invoke-Expression\nbookmark-cd completions | Out-String | Invoke-Expression".to_string();
                 init_cmd = include_str!("cmd_pwsh.ps1").to_string();
                 let profile_output = Command::new("powershell")
                     .args(["-NoProfile", "-Command", "echo", "$PROFILE"])

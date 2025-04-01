@@ -1,4 +1,4 @@
-use clap::Parser;
+use clap::{Parser, Subcommand};
 
 /// Struct containing the parsed command line arguments
 #[derive(Parser)]
@@ -29,4 +29,18 @@ pub struct Options {
     /// Print version information
     #[arg(short = 'V', long, value_parser, display_order(4))]
     pub version: bool,
+
+    #[command(subcommand)]
+    pub sub_command: Option<SubCommands>,
+}
+
+#[derive(Subcommand)]
+pub enum SubCommands {
+    /// Initialise the shell environment
+    #[command(hide(true))]
+    Init,
+
+    /// Shell completions setup
+    #[command(hide(true))]
+    Completions,
 }

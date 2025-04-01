@@ -18,6 +18,7 @@ Snapcraft does not allow write access to the shell startup scripts which are req
 ``` sh
 # bookmark-cd init block
 eval "$(bookmark-cd init)"
+eval "$(bookmark-cd completions)"
 ```
 
 The following should be run so that the snap container allows `bcd` to check that the command has been set up in your shell init file:
