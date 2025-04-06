@@ -249,11 +249,17 @@ impl ShellSetup {
                 init_cmd = include_str!("cmd_pwsh.ps1").to_string();
                 let profile_output = Command::new("pwsh")
                     .args(["-NoProfile", "-Command", "echo", "$PROFILE"])
-                    .output()
-                    .expect("Failed to execute powershell");
-                if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
-                    shell_init.push(profile_path.trim());
-                }
+                    .output();
+                match profile_output {
+                    Ok(profile_output) => {
+                        if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
+                            shell_init.push(profile_path.trim());
+                        }
+                    }
+                    Err(x) => {
+                        println!("Failed to get powershell $PROFILE: {x}");
+                    }
+                };
                 true
             }
             "powershell" => {
@@ -261,12 +267,17 @@ impl ShellSetup {
                 init_cmd = include_str!("cmd_pwsh.ps1").to_string();
                 let profile_output = Command::new("powershell")
                     .args(["-NoProfile", "-Command", "echo", "$PROFILE"])
-                    .output()
-                    .expect("Failed to execute powershell");
-
-                if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
-                    shell_init.push(profile_path.trim());
-                }
+                    .output();
+                match profile_output {
+                    Ok(profile_output) => {
+                        if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
+                            shell_init.push(profile_path.trim());
+                        }
+                    }
+                    Err(x) => {
+                        println!("Failed to get powershell $PROFILE: {x}");
+                    }
+                };
                 true
             }
             _ => false,
