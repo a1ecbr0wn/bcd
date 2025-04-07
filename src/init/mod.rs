@@ -18,7 +18,6 @@ pub fn check_bookmarks_file(home: PathBuf) -> bool {
 // Attempt to setup your shell, can be run in interactive mode or not, and exits the process if cancelled unexpectedly.
 pub fn setup_shell(interactive: bool) -> bool {
     let shell = ShellSetup::new();
-
     let home = if shell.is_in_snap {
         if let Some(home) = snap_data() {
             home
@@ -106,8 +105,8 @@ pub fn setup_shell(interactive: bool) -> bool {
 
 fn instructions_shell_script(init_file: PathBuf, eval: String) {
     println!("To complete setup, please edit your [{}] file and insert the following to the end of the file:\n", init_file.to_str().unwrap());
-    println!("    # bookmark-cd init block");
-    println!("    {eval}");
+    println!("# bookmark-cd init block");
+    println!("{eval}");
 }
 
 fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool {
@@ -253,6 +252,7 @@ impl ShellSetup {
                 match profile_output {
                     Ok(profile_output) => {
                         if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
+                            println!("$PROFILE: {profile_path}");
                             shell_init.push(profile_path.trim());
                         }
                     }
@@ -271,6 +271,7 @@ impl ShellSetup {
                 match profile_output {
                     Ok(profile_output) => {
                         if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
+                            println!("$PROFILE: {profile_path}");
                             shell_init.push(profile_path.trim());
                         }
                     }
