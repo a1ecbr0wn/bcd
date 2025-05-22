@@ -252,7 +252,6 @@ impl ShellSetup {
                 match profile_output {
                     Ok(profile_output) => {
                         if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
-                            println!("$PROFILE: {profile_path}");
                             shell_init.push(profile_path.trim());
                         }
                     }
@@ -271,7 +270,6 @@ impl ShellSetup {
                 match profile_output {
                     Ok(profile_output) => {
                         if let Ok(profile_path) = String::from_utf8(profile_output.stdout) {
-                            println!("$PROFILE: {profile_path}");
                             shell_init.push(profile_path.trim());
                         }
                     }
