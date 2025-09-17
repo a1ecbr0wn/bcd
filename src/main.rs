@@ -10,8 +10,8 @@ use std::{
 };
 
 use tabled::{
-    builder::Builder, settings::object::Segment, settings::Alignment, settings::Modify,
-    settings::Style,
+    builder::Builder, settings::Alignment, settings::Modify, settings::Style,
+    settings::object::Segment,
 };
 
 fn main() {

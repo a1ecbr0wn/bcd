@@ -1,10 +1,10 @@
 use home::home_dir;
 use snapcraft::{check_snap_home, snap_data};
 use std::{
-    fs::{create_dir_all, File, OpenOptions},
-    io::{prelude::*, stdout, ErrorKind},
+    fs::{File, OpenOptions, create_dir_all},
+    io::{ErrorKind, prelude::*, stdout},
     path::PathBuf,
-    process::{exit, Command},
+    process::{Command, exit},
 };
 
 // Check that the .bcd data file exists and the shell startup script is setup
@@ -48,7 +48,9 @@ pub fn setup_shell(interactive: bool) -> bool {
                         "This may be because you have installed bcd from snap, which prevents automatic setup.\n"
                     );
                     if !shell.is_snap_connected {
-                        println!("The snap container initially blocks access to shell init files that are needed to be checked for setup.  The following command can be run to unblock access to the required file and then try again:\n");
+                        println!(
+                            "The snap container initially blocks access to shell init files that are needed to be checked for setup.  The following command can be run to unblock access to the required file and then try again:\n"
+                        );
                         println!(
                             "    sudo snap connect bookmark-cd:{}\n \n",
                             shell.snap_connector
@@ -104,7 +106,10 @@ pub fn setup_shell(interactive: bool) -> bool {
 }
 
 fn instructions_shell_script(init_file: PathBuf, eval: String) {
-    println!("To complete setup, please edit your [{}] file and insert the following to the end of the file:\n", init_file.to_str().unwrap());
+    println!(
+        "To complete setup, please edit your [{}] file and insert the following to the end of the file:\n",
+        init_file.to_str().unwrap()
+    );
     println!("# bookmark-cd init block");
     println!("{eval}");
 }
@@ -130,7 +135,9 @@ fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool
             writeln!(file).unwrap();
             writeln!(file, "# bookmark-cd init block").unwrap();
             writeln!(file, "{eval}").unwrap();
-            println!("\nYour shell startup script has been modified, restart your shell and type `bcd`\n");
+            println!(
+                "\nYour shell startup script has been modified, restart your shell and type `bcd`\n"
+            );
             true
         }
         Err(x) => match x.kind() {
