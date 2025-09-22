@@ -150,9 +150,20 @@ jobs:
       - name: Download all release artifacts from the workflow
         uses: actions/download-artifact@v4
 
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v4
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: --tag ${{ github.ref_name }}
+        env:
+          OUTPUT: CHANGELOG.md
+          GITHUB_REPO: ${{ github.repository }}
+
       - name: Create CLI Release
         uses: softprops/action-gh-release@v1
         with:
+          body_path: ${{ steps.git-cliff.outputs.content }}
           tag_name: "${{ github.ref_name }}"
           name: "Release ${{ github.ref_name }}"
           token: "${{ secrets.GITHUB_TOKEN }}"
