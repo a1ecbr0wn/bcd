@@ -1,6 +1,6 @@
 [package]
 name = "bookmark-cd"
-version = "1.0.26"
+version = "1.0.27"
 edition = "2024"
 rust-version = "1.85"
 authors = ["Alec Brown <alec@noser.net>"]
