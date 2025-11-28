@@ -19,18 +19,18 @@ path = "src/main.rs"
 name = "bookmark-cd"
 
 [dependencies]
-clap = { version = "4.5.48", features = ["derive"] }
-clap_complete = "4.5.58"
+clap = { version = "4.5.53", features = ["derive"] }
+clap_complete = "4.5.61"
 csv = "=1.4.0"
-home = "0.5.11"
+home = "0.5.12"
 tabled = "0.20.0"
-pshell = "1.0.16"
+pshell = "1.0.17"
 snapcraft = "0.4.3"
 
 [build-dependencies]
-clap = { version = "4.5.45", features = ["derive"] }
-clap_complete = "4.5.57"
+clap = { version = "4.5.53", features = ["derive"] }
+clap_complete = "4.5.61"
 clap_complete_fig = "4.5"
-home = "0.5.9"
-pshell = "1.0.16"
+home = "0.5.12"
+pshell = "1.0.17"
 snapcraft = "0.4.3"
