@@ -2,15 +2,15 @@
 title: bookmark-cd | bcd
 description: Bookmark Change Directory
 
-remote_theme: just-the-docs/just-the-docs
 plugins:
-  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-github-metadata
+  - jekyll-include-cache
   - jekyll-default-layout
 
 google_analytics: G-K1B7GJ3M5N
 
 favicon_ico: "/img/favicon-32.png"
-color_scheme: dark
 
 footer_content: '<a href="https://a1ecbr0wn.com"><img alt="a1ecbr0wn" src="https://img.shields.io/badge/a1ecbr0wn-home-brightgreen"></a> <img alt="Crates.io License" src="https://img.shields.io/crates/l/bookmark-cd"> <a href="https://snapcraft.io/bookmark-cd"><img alt="bookmark-cd" src="https://snapcraft.io/bookmark-cd/badge.svg" /></a>'
 aux_links:
