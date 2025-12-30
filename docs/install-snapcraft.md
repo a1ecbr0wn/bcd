@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: "Snapcraft Installation | bookmark-cd | bcd"
 nav_order: 2
 parent: Installation
 ---

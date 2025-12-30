@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: "Bookmark Change Directory | bookmark-cd | bcd"
 nav_order: 1
 permalink: /
 ---

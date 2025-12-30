@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: "Homebrew Installation | bookmark-cd | bcd"
 nav_order: 1
 parent: Installation
 ---

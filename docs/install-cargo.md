@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: "Cargo Installation | bookmark-cd | bcd"
 nav_order: 3
 parent: Installation
 ---

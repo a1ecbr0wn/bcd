@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: "How to use | bookmark-cd | bcd"
 nav_order: 2
 ---
 

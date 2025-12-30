@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: "Other package managers | bookmark-cd | bcd"
 nav_order: 4
 parent: Installation
 ---

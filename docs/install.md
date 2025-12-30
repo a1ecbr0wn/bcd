@@ -1,5 +1,6 @@
 ---
 layout: docs
+title: "Installation | bookmark-cd | bcd"
 nav_order: 3
 has_children: true
 ---
