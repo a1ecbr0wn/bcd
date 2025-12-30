@@ -1,5 +1,6 @@
 ---
-title: Home
+layout: docs
+title: bcd
 nav_order: 1
 permalink: /
 ---
