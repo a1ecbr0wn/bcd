@@ -1,7 +1,6 @@
 ---
 layout: docs
-title: "Contribute | bookmark-cd | bcd"
-nav_order: 4
+title: "Contribute | bcd"
 ---
 
 # Contribute
