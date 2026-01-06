@@ -4,26 +4,26 @@ name: CI Build
 on:
   push:
     branches:
-      - '**'
+      - "**"
     paths:
-      - '**/*.rs'
-      - 'src/*'
-      - 'Cargo.*'
-      - '.github/workflows/build.yml'
+      - "**/*.rs"
+      - "src/*"
+      - "Cargo.*"
+      - ".github/workflows/build.yml"
   pull_request:
     branches:
-      - '**'
+      - "**"
     paths:
-      - '**/*.rs'
-      - 'src/*'
-      - 'Cargo.*'
-      - '.github/workflows/build.yml'
+      - "**/*.rs"
+      - "src/*"
+      - "Cargo.*"
+      - ".github/workflows/build.yml"
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: "0 0 * * 1"
   workflow_dispatch:
 
 env:
-  RUSTFLAGS: '--deny warnings'
+  RUSTFLAGS: "--deny warnings"
 
 jobs:
   format:
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@stable
@@ -57,8 +57,8 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      
+        uses: actions/checkout@v6
+
       - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@master
         with:
@@ -86,8 +86,8 @@ jobs:
           - aarch64-apple-darwin
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      
+        uses: actions/checkout@v6
+
       - name: Rust Toolchain setup
         uses: dtolnay/rust-toolchain@master
         with:

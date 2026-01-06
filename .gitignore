@@ -4,8 +4,9 @@ CHANGELOG.md
 /target
 
 # IDE
-/.vscode
-/.idea
+.vscode/
+.idea/
+.zed/
 *.iml
 
 # Checksums
@@ -19,4 +20,4 @@ CHANGELOG.md
 *.snap
 
 # this is stored is a different repo
-snapcraft.yaml  
+snapcraft.yaml
