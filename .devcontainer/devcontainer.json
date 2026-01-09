@@ -1,27 +1,27 @@
 {
-    "name": "Rust",
-    "image": "mcr.microsoft.com/devcontainers/rust:1",
+  "name": "rust dev",
+  "image": "alecbrown/rust-wrangler:latest",
 
-    // "features": {},
+  // "features": {},
 
-    "customizations": {
-        "vscode": {
-            "settings": {},
-            "extensions": [
-				"rust-lang.rust-analyzer",
-				"serayuzgur.crates",
-				"vadimcn.vscode-lldb",
-				"codezombiech.gitignore",
-				"github.vscode-github-actions"
-			]
-        }
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "serayuzgur.crates",
+        "vadimcn.vscode-lldb",
+        "codezombiech.gitignore",
+        "github.vscode-github-actions",
+      ],
     },
+  },
 
-    // "forwardPorts": [],
+  // "forwardPorts": [],
 
-    "postCreateCommand": "rustc --version",
+  "postCreateCommand": "rustc --version",
 
-    "hostRequirements": {
-        "cpus": 2
-    }
+  "hostRequirements": {
+    "cpus": 2,
+  },
 }
