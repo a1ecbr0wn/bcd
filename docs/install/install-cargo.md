@@ -4,10 +4,11 @@ title: "Cargo Installation | bookmark-cd | bcd"
 nav_order: 3
 parent: Installation
 ---
-# Cargo Installation
+
+## Cargo Installation
 
 A simple way for fellow rust developers to install `bcd` is via the rust tool `cargo`:
 
-``` bash
+```bash
 cargo install bookmark-cd
 ```

@@ -5,7 +5,7 @@ nav_order: 3
 has_children: true
 ---
 
-# Installation
+## Installation
 
 - MacOS - [Install with Homebrew](install-homebrew)
 - Linux - [Install with Snap](install-snapcraft)

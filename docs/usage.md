@@ -4,11 +4,11 @@ title: "How to use | bookmark-cd | bcd"
 nav_order: 2
 ---
 
-# How to use
+## How to use
 
-## Create a bookmark
+### Create a bookmark
 
-``` sh
+```sh
 # create a bookmark to the logs directory
 $ cd /var/log
 $ bcd -s logs
@@ -21,23 +21,23 @@ $ bcd logs
 $ pwd
 ```
 
-## List bookmarks
+### List bookmarks
 
-``` sh
+```sh
 # list the bookmarks
 $ bcd -l
 ```
 
-## Remove bookmarks
+### Remove bookmarks
 
-``` sh
+```sh
 # remove a bookmarks
 $ bcd -r logs
 ```
 
-## Help
+### Help
 
-``` sh
+```sh
 # show the usage/help message
 $ bcd -h
 ```
