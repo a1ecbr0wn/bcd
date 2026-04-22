@@ -63,7 +63,13 @@ fn main() {
         }
 
         let mut bookmarks_cache: BTreeMap<String, String> = BTreeMap::new();
-        let mut bookmarks_file = home_dir().unwrap();
+        let mut bookmarks_file = match home_dir() {
+            Some(home) => home,
+            None => {
+                eprintln!("Home directory not found. Please set the HOME environment variable.");
+                std::process::exit(1);
+            }
+        };
         bookmarks_file.push(".bcd");
         if bookmarks_file.exists() {
             let res = Reader::from_path(bookmarks_file.as_path());
