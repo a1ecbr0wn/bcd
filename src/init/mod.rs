@@ -334,17 +334,19 @@ impl ShellSetup {
             false
         };
         let is_snap_connected = if is_in_snap {
-            let snap_connected_status = Command::new("snapctl")
+            if let Ok(snap_connected_status) = Command::new("snapctl")
                 .arg("is-connected")
                 .arg(snap_connector.clone())
                 .status()
-                .unwrap_or_else(|_| {
-                    panic!(
-                        "Failed to check whether snap is able to read {}",
-                        shell_init.to_string_lossy()
-                    )
-                });
-            snap_connected_status.success()
+            {
+                snap_connected_status.success()
+            } else {
+                eprintln!(
+                    "Failed to check whether snap is able to read {}",
+                    shell_init.to_string_lossy()
+                );
+                false
+            }
         } else {
             false
         };
