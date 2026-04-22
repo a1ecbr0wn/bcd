@@ -76,7 +76,7 @@ pub fn setup_shell(interactive: bool) -> bool {
                     print!("Do you want to set this up now? [Y/n] ");
                     let _ = stdout().flush();
                     let mut reply = String::new();
-                    let _b = std::io::stdin().read_line(&mut reply).unwrap();
+                    let _b = std::io::stdin().read_line(&mut reply);
                     reply = reply.trim().to_string();
                     if reply.eq_ignore_ascii_case("y")
                         || reply.eq_ignore_ascii_case("yes")
@@ -122,7 +122,7 @@ pub fn setup_shell(interactive: bool) -> bool {
 fn instructions_shell_script(init_file: PathBuf, eval: String) {
     println!(
         "To complete setup, please edit your [{}] file and insert the following to the end of the file:\n",
-        init_file.to_str().unwrap()
+        init_file.to_string_lossy()
     );
     println!("# bookmark-cd init block");
     println!("{eval}");
@@ -146,9 +146,9 @@ fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool
         .open(init_file.clone());
     match res {
         Ok(mut file) => {
-            writeln!(file).unwrap();
-            writeln!(file, "# bookmark-cd init block").unwrap();
-            writeln!(file, "{eval}").unwrap();
+            let _ = writeln!(file);
+            let _ = writeln!(file, "# bookmark-cd init block");
+            let _ = writeln!(file, "{eval}");
             println!(
                 "\nYour shell startup script has been modified, restart your shell and type `bcd`\n"
             );
@@ -158,7 +158,7 @@ fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool
             ErrorKind::PermissionDenied => {
                 println!(
                     "Shell startup script [{}] could not be created due to invalid permissions",
-                    init_file.to_str().unwrap()
+                    init_file.to_string_lossy()
                 );
                 false
             }
@@ -341,7 +341,7 @@ impl ShellSetup {
                 .unwrap_or_else(|_| {
                     panic!(
                         "Failed to check whether snap is able to read {}",
-                        shell_init.clone().to_str().unwrap()
+                        shell_init.to_string_lossy()
                     )
                 });
             snap_connected_status.success()
