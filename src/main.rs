@@ -76,15 +76,26 @@ fn main() {
             match res {
                 Ok(mut res) => {
                     for result in res.records() {
-                        let record = result.expect("a CSV record");
-                        if record.len() >= 2 {
-                            bookmarks_cache.insert(record[0].to_string(), record[1].to_string());
-                        } else {
-                            println!(
-                                "Reading file `{}`, skipping `{}`",
-                                bookmarks_file.display(),
-                                record.as_slice()
-                            );
+                        match result {
+                            Ok(record) => {
+                                if record.len() >= 2 {
+                                    bookmarks_cache
+                                        .insert(record[0].to_string(), record[1].to_string());
+                                } else {
+                                    println!(
+                                        "Reading file `{}`, skipping `{}`",
+                                        bookmarks_file.display(),
+                                        record.as_slice()
+                                    );
+                                }
+                            }
+                            Err(e) => {
+                                println!(
+                                    "Reading file `{}`, skipping invalid record: {}",
+                                    bookmarks_file.display(),
+                                    e
+                                );
+                            }
                         }
                     }
                 }
