@@ -22,14 +22,28 @@ pub fn setup_shell(interactive: bool) -> bool {
         if let Some(home) = snap_data() {
             home
         } else {
-            home_dir().unwrap()
+            match home_dir() {
+                Some(home) => home,
+                None => {
+                    eprintln!(
+                        "Home directory not found. Please set the HOME environment variable."
+                    );
+                    std::process::exit(1);
+                }
+            }
         }
     } else {
-        home_dir().unwrap()
+        match home_dir() {
+            Some(home) => home,
+            None => {
+                eprintln!("Home directory not found. Please set the HOME environment variable.");
+                std::process::exit(1);
+            }
+        }
     };
-    let bookmarks_file_exists = check_bookmarks_file(home);
+    let bookmarks_file_exists = check_bookmarks_file(home.clone());
     if !bookmarks_file_exists {
-        let mut bookmarks_file = home_dir().unwrap();
+        let mut bookmarks_file = home;
         bookmarks_file.push(".bcd");
         if !bookmarks_file.exists() {
             let _ = File::create(bookmarks_file);
@@ -203,10 +217,26 @@ impl ShellSetup {
             if home_override_path.is_dir() {
                 home_override_path
             } else {
-                home_dir().unwrap()
+                match home_dir() {
+                    Some(home) => home,
+                    None => {
+                        eprintln!(
+                            "Home directory not found. Please set the HOME environment variable."
+                        );
+                        std::process::exit(1);
+                    }
+                }
             }
         } else {
-            home_dir().unwrap()
+            match home_dir() {
+                Some(home) => home,
+                None => {
+                    eprintln!(
+                        "Home directory not found. Please set the HOME environment variable."
+                    );
+                    std::process::exit(1);
+                }
+            }
         };
         let mut snap_connector = String::new();
         let mut eval = String::new();
