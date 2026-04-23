@@ -22,14 +22,28 @@ pub fn setup_shell(interactive: bool) -> bool {
         if let Some(home) = snap_data() {
             home
         } else {
-            home_dir().unwrap()
+            match home_dir() {
+                Some(home) => home,
+                None => {
+                    eprintln!(
+                        "Home directory not found. Please set the HOME environment variable."
+                    );
+                    std::process::exit(1);
+                }
+            }
         }
     } else {
-        home_dir().unwrap()
+        match home_dir() {
+            Some(home) => home,
+            None => {
+                eprintln!("Home directory not found. Please set the HOME environment variable.");
+                std::process::exit(1);
+            }
+        }
     };
-    let bookmarks_file_exists = check_bookmarks_file(home);
+    let bookmarks_file_exists = check_bookmarks_file(home.clone());
     if !bookmarks_file_exists {
-        let mut bookmarks_file = home_dir().unwrap();
+        let mut bookmarks_file = home;
         bookmarks_file.push(".bcd");
         if !bookmarks_file.exists() {
             let _ = File::create(bookmarks_file);
@@ -62,7 +76,7 @@ pub fn setup_shell(interactive: bool) -> bool {
                     print!("Do you want to set this up now? [Y/n] ");
                     let _ = stdout().flush();
                     let mut reply = String::new();
-                    let _b = std::io::stdin().read_line(&mut reply).unwrap();
+                    let _b = std::io::stdin().read_line(&mut reply);
                     reply = reply.trim().to_string();
                     if reply.eq_ignore_ascii_case("y")
                         || reply.eq_ignore_ascii_case("yes")
@@ -108,7 +122,7 @@ pub fn setup_shell(interactive: bool) -> bool {
 fn instructions_shell_script(init_file: PathBuf, eval: String) {
     println!(
         "To complete setup, please edit your [{}] file and insert the following to the end of the file:\n",
-        init_file.to_str().unwrap()
+        init_file.to_string_lossy()
     );
     println!("# bookmark-cd init block");
     println!("{eval}");
@@ -132,9 +146,9 @@ fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool
         .open(init_file.clone());
     match res {
         Ok(mut file) => {
-            writeln!(file).unwrap();
-            writeln!(file, "# bookmark-cd init block").unwrap();
-            writeln!(file, "{eval}").unwrap();
+            let _ = writeln!(file);
+            let _ = writeln!(file, "# bookmark-cd init block");
+            let _ = writeln!(file, "{eval}");
             println!(
                 "\nYour shell startup script has been modified, restart your shell and type `bcd`\n"
             );
@@ -144,7 +158,7 @@ fn setup_init_file(_interactive: bool, init_file: PathBuf, eval: String) -> bool
             ErrorKind::PermissionDenied => {
                 println!(
                     "Shell startup script [{}] could not be created due to invalid permissions",
-                    init_file.to_str().unwrap()
+                    init_file.to_string_lossy()
                 );
                 false
             }
@@ -203,10 +217,26 @@ impl ShellSetup {
             if home_override_path.is_dir() {
                 home_override_path
             } else {
-                home_dir().unwrap()
+                match home_dir() {
+                    Some(home) => home,
+                    None => {
+                        eprintln!(
+                            "Home directory not found. Please set the HOME environment variable."
+                        );
+                        std::process::exit(1);
+                    }
+                }
             }
         } else {
-            home_dir().unwrap()
+            match home_dir() {
+                Some(home) => home,
+                None => {
+                    eprintln!(
+                        "Home directory not found. Please set the HOME environment variable."
+                    );
+                    std::process::exit(1);
+                }
+            }
         };
         let mut snap_connector = String::new();
         let mut eval = String::new();
@@ -304,17 +334,19 @@ impl ShellSetup {
             false
         };
         let is_snap_connected = if is_in_snap {
-            let snap_connected_status = Command::new("snapctl")
+            if let Ok(snap_connected_status) = Command::new("snapctl")
                 .arg("is-connected")
                 .arg(snap_connector.clone())
                 .status()
-                .unwrap_or_else(|_| {
-                    panic!(
-                        "Failed to check whether snap is able to read {}",
-                        shell_init.clone().to_str().unwrap()
-                    )
-                });
-            snap_connected_status.success()
+            {
+                snap_connected_status.success()
+            } else {
+                eprintln!(
+                    "Failed to check whether snap is able to read {}",
+                    shell_init.to_string_lossy()
+                );
+                false
+            }
         } else {
             false
         };

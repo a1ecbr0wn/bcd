@@ -63,22 +63,39 @@ fn main() {
         }
 
         let mut bookmarks_cache: BTreeMap<String, String> = BTreeMap::new();
-        let mut bookmarks_file = home_dir().unwrap();
+        let mut bookmarks_file = match home_dir() {
+            Some(home) => home,
+            None => {
+                eprintln!("Home directory not found. Please set the HOME environment variable.");
+                std::process::exit(1);
+            }
+        };
         bookmarks_file.push(".bcd");
         if bookmarks_file.exists() {
             let res = Reader::from_path(bookmarks_file.as_path());
             match res {
                 Ok(mut res) => {
                     for result in res.records() {
-                        let record = result.expect("a CSV record");
-                        if record.len() >= 2 {
-                            bookmarks_cache.insert(record[0].to_string(), record[1].to_string());
-                        } else {
-                            println!(
-                                "Reading file `{}`, skipping `{}`",
-                                bookmarks_file.display(),
-                                record.as_slice()
-                            );
+                        match result {
+                            Ok(record) => {
+                                if record.len() >= 2 {
+                                    bookmarks_cache
+                                        .insert(record[0].to_string(), record[1].to_string());
+                                } else {
+                                    println!(
+                                        "Reading file `{}`, skipping `{}`",
+                                        bookmarks_file.display(),
+                                        record.as_slice()
+                                    );
+                                }
+                            }
+                            Err(e) => {
+                                println!(
+                                    "Reading file `{}`, skipping invalid record: {}",
+                                    bookmarks_file.display(),
+                                    e
+                                );
+                            }
                         }
                     }
                 }
@@ -95,11 +112,20 @@ fn main() {
 
         if let Some(key) = options.store {
             if key.len() < 50 {
-                let path = current_dir()
-                    .unwrap()
-                    .into_os_string()
-                    .into_string()
-                    .unwrap();
+                let cwd = match current_dir() {
+                    Ok(dir) => dir,
+                    Err(err) => {
+                        eprintln!("Failed to determine current directory: {}", err);
+                        std::process::exit(1);
+                    }
+                };
+                let path = match cwd.into_os_string().into_string() {
+                    Ok(path) => path,
+                    Err(os_string) => {
+                        eprintln!("Current directory path is not valid UTF-8: {:?}", os_string);
+                        std::process::exit(1);
+                    }
+                };
                 if let Some(updated) = bookmarks_cache.insert(key.clone(), path.clone()) {
                     if persist(&bookmarks_cache, bookmarks_file.as_path()).is_ok() {
                         println!("Bookmark `{key}`: `{path}` updated from `{key}`: `{updated}`");
