@@ -153,7 +153,7 @@ fn main() {
                     println!("Failed to remove `{key}` bookmark, bookmark file is not writable");
                 }
             } else {
-                println!("`{}` is not a valid bookmark", &key);
+                println!("`{}` is not a valid bookmark", key);
             }
             exit(0);
         }
